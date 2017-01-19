@@ -1,0 +1,227 @@
+---
+title: "Advanvce_R"
+author: "Qiufei"
+date: "1/2/2017"
+output: 
+  html_document: 
+    css: ~/Documents/safari_css.css
+    fig_caption: yes
+    theme: readable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# list and `c()`
+
+```{r list}
+
+p = c(list(1,2),c(3,4))
+str(p)
+p
+
+```
+# attributes
+
+attributes can be thought as a named list(with unique names).
+
+可以用`attr(y,"my_attribute") = "this is ..."`来给变量添加注释，然后用`attr(y)`来显示注释。
+
+peter：尽量将所有的操作写在一起，不要用“隐藏的”global option。
+
+```{r}
+l <- list(1:3, "a", TRUE, 1.0)
+l
+dim(l) = c(2,2)
+l
+```
+
+# data frame is list of vectors
+under the hood, a data frame is a list of equal length vectors. so the `lenght()` of a data is  the same as `ncol()`.
+
+# combine unmatch data frames
+we use  plyr::rbind.fill() to combine data frames that don't have the same columns.
+
+# common mistake
+it's a common mistake to try and create a data frame by cbind()ing vectors together. this doesn't work because `cbind()` will create a matrix unless one of the arguments is already a data frame. instead use `data.frame()` directly.
+
+peter:想做什么就直接的做。
+
+# data frame select
+从data frame 中选择单独一列时，以list的方式`df["x"]`不会对数据类型进行化简，以matrix的方式`df[,"x"]`会对结果数据类型进行化简。
+
+# p43 在subsetting中，$允许部分匹配。
+
+# lookup
+```{r}
+x <- c("m", "f", "u", "f", "f", "m", "m")
+lookup <- c(m = "Male", f = "Female", u = NA)
+str(lookup)
+lookup[x]
+p = lookup[x]
+str(p)
+```
+
+
+# p48. if you have multiple columns to match on , you'll need to first collapse them to a single column?
+
+# data frame 内的逻辑选择用&和|，而不是&&和||
+
+```{r}
+subset(mtcars, gear == 5 & cyl == 4)
+subset(mtcars, gear == 5 && cyl == 4)
+```
+
+# commmon mistake about `which()`
+when first learining subsetting, a common mistake is to use `x[which(y)]` instead of `x[y]`.
+
+
+# naming rule
+if files need to be run in sequence,prefix them with numbers:
+
+0-download.r
+
+1-parse.r
+
+2-explore.r
+
+# do.call()将list结构vector化
+
+```{r}
+do.call(mean, list(1:10, na.rm = TRUE))
+#> [1] 5.5
+# Equivalent to
+mean(1:10, na.rm = TRUE)
+#> [1] 5.5
+```
+
+
+# objects class
+in S3, methods belong to functions, called generic functions, or generics for short.
+
+you can see all the methods that belong to a generic with `methods()`.
+
+you can also list all generics that have a method for a given class. such as ` methods(class = "ts") `
+
+# R中用到的funtional programming的三大主题
+
+1. a recurring theme in functional programming: start with samll, east-to-understand building blocks, combine them into some complex structures, and apply them with confidence.
+
+2. closures, founctions that make and return functions.(p179)
+
+3. storing functions in lists.
+
+in R, functions can be stored in list. this make it easier to work with groups of related functions, in the same way a data frame makes it easier to work with groups of related vectors.
+
+functionals extract common patterns of loop use, function operators extract common patterns of anonymous function use.
+
+another way of thinking about functionals is as a set of general tools for altering,subsetting,and collapse lists.
+
+every functional programming language has three tools for this: `Map(),Reduce(),filter()`.
+
+
+
+# 匿名函数与定制函数
+
+```{r}
+x = 1:10
+
+funs = list(
+    sum = sum,
+    mean = mean,
+    median = median
+  )
+
+
+funs2 = list(
+  sum = function(x, ...)  sum(x, ..., na.rm = TRUE),
+  mean = function(x, ...)  mean(x, ..., na.rm = TRUE), 
+  median = function(x, ...)  median(x, ..., na.rm = TRUE)
+  )
+
+lapply(funs2, function(f) f(x)) 
+# this is equivalent to
+
+lapply(funs, function(f) f(x, na.rm = TRUE))
+
+```
+这个例子有助于理解apply族函数的机理.
+
+# 匿名函数的使用场合之一
+if some ot the arguments should be fixed and constant, use an anoymous function.
+
+
+# to become significantly more reliable, code must become more transparent.
+
+# replicate 复合使用
+
+```{r}
+replicate(20, runif(sample(1:10, 1)), simplify = FALSE)
+```
+
+从1到10之间选出一个数n，再生成n个均匀分布的数，然后把这个过程重复20次。
+
+# failwith()能在出错的时候依然部分进行。
+
+# pryr::partial()
+
+a common use of anonymous functions is to make a variant of a function that has certain arguments "filled in" already. this is called "partial function application", and is implemented by `pryr::partial()`.
+
+# 对一个函数用不同的参数来显示不同的结果
+
+```{r}
+# 自编函数splat
+splat = function (f) {
+      force(f)
+      function(args) {
+        do.call(f, args)
+      } }
+
+
+x = c(NA, runif(100), 1000)
+
+args = list(
+      list(x),
+      list(x, na.rm = TRUE),
+      list(x, na.rm = TRUE, trim = 0.1)
+    )
+
+lapply(args, splat(mean))
+
+```
+
+这个`trim`是什么意思？
+
+
+# colwise使用
+
+```{r}
+str(mtcars)
+library(plyr)
+colwise(median)(mtcars)
+
+```
+
+
+# 将多个函数组合为一个函数`plyr::each()`
+
+# 复合函数`pryr::compose()`
+
+# use `vapply()` instead of `sapply()`
+# use `map()` instead of `mapply()`
+
+# 有用的函数
+`zoo:rollapply()`移动平均计算。
+
+`parallel:mclapply()`,`parallel:mcmap()`并行计算。
+
+library(memoise) 可以加快计算速度
+
+
+# 存疑问
+
+## P187 `new-counter` 函数到底有何用？
+
+## p206 `vapply`最后那个参数时干嘛的？
+

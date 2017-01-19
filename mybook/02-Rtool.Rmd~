@@ -1,0 +1,38 @@
+# 智能交易操作的工具：以R语言为例 #
+
+
+## our pilosopy:learning by doing ##
+
+* 关注够用的细节
+* 寻找最方便的方式
+* 快速开始核心操作
+
+## R语言的安装与配置 ##
+
+* R与Rstudio是必备的软件
+* 网盘下载地址：https://pan.baidu.com/s/1mhXKIAc
+
+
+
+
+
+## Rstudio的安装与使用 ##
+
+## R的数据类型 ##
+
+* 向量，矩阵，数组
+* 数据框（dataframe），列表（list）
+* 因子（factor）
+
+主角是**数据框**
+
+## R的数据导入、导出 ##
+
+* 导入导出实在是麻烦，所以用package。
+
+> 人生苦短，我用package！
+
+
+
+## R的宏扩展包（package） ##
+
