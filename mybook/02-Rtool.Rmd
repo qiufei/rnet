@@ -62,7 +62,7 @@ R,Python,甚至还有excel
 
 ## quandl网站 ##
 
-![Quandl.com](pic/02_quandl.png)
+![Quandl.com](/pic/02_quandl.png)
 
 ## quandl例子：获取国家统计局的数据 ##
 
