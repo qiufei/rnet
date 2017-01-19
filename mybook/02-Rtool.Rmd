@@ -16,7 +16,6 @@
 ## Rstudio的安装与使用 ##
 
 * 写代码要用编辑器（Emacs）或者IDE（比如Rstudio）
-* 
 
 ## R的数据类型 ##
 
@@ -66,4 +65,19 @@ R,Python,甚至还有excel
 
 ## quandl例子：获取国家统计局的数据 ##
 
+
+quandl上国家统计局的入口：https://www.quandl.com/data/NBSC-National-Bureau-of-Statistics-of-China
+
+![national bureau of statisitics of china](/pic/02_nbsc.png)
+
+## 城镇居民CPI数据 ##
+
+* 该网站上每条数据都有一个唯一的**quandl code**代码
+
+* 比如国家统计局城镇居民cpi这条数据的quandl code代码是**NBSC/A01030309_M**
+
+
+* 获取城镇居民CPI数据的方法就是调用`Quandl`函数：`Quandl("NBSC/A01030309_M")`
+
+注意在quandl code在函数括号内要用双引号括起来。
 
