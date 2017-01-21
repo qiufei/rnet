@@ -1,0 +1,131 @@
+---
+title: "under_median"
+author: "Qiufei"
+date: "1/20/2017"
+output: 
+  html_document: 
+    number_sections: yes
+    theme: cerulean
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# under median
+
+find the symbol that most under its median.
+
+see if them appreciate when the year end.
+
+```{r}
+
+library(dplyr)
+library(lubridate)
+load('stock.rda')
+
+punder = function(x,begin_day = '2012-12-31',end_day = '2013-12-31'){
+  #找出选定的区间
+  s = filter(x,date >= begin_day & date<= end_day)
+  #分组
+  s_group = group_by(s,code)
+  # 计算每组每天的价格与选定的区间内的中位价格的偏离值
+  s_median = transmute(s_group,
+                      date = date,
+                      under_ratio = close/median(close)
+                      )
+
+  ## 获得区间末尾那天的under ratio，来看在新的下一年这些偏离中指最低的股票的表现
+  s_median_begin = filter(s_median,date == end_day)
+  ## 对偏离程度排序
+  s_median_most = s_median_begin[order(s_median_begin$under_ratio),]
+  ## remove unused levels
+  s_median_most = droplevels(s_median_most)
+  
+  ## 获得偏离程度最大的6只股票
+  s_input = head(s_median_most)
+
+  select_code =  s_input$code
+  
+  ## 看这六只股票在新的一年的表现
+  ss_begin = ymd(begin_day) + years(1)
+  ss_end   = ymd(end_day) + years(1)
+  
+  select_date = c(ss_begin,ss_end)
+  select_stock = filter(stock,code %in% select_code)
+
+  ss = filter(select_stock,date == ss_begin | date == ss_end)
+  ss = droplevels(ss)
+
+  ss_group = group_by(ss,code)
+  ss_result = summarise(ss_group,
+                    performance = (first(close)-last(close))/last(close)
+                    )
+  # add the under value ratio to final report
+  ss_under = merge(ss_result,s_input,by = 'code')
+  ss_under
+  
+}
+
+s2013 = subset(stock,date >='2012-12-31' & date<= '2013-12-31')
+
+s2013_group = group_by(s2013,code)
+
+s2013_median = transmute(s2013_group,
+                         date = date,
+                         under_ratio = close/median(close))
+
+## because the yundan festival, trading day beging at 2013.1.4
+s2013_median_begin = filter(s2013_median,date =='2012-12-31')
+
+s2013_median_most = s2013_median_begin[order(s2013_median_begin$under_ratio),]
+
+## remove unused levels
+s2013_input = head(s2013_median_most)
+
+select_code =  s2013_input$code
+select_date = c('2012-12-31','2013-12-31')
+select_stock = filter(stock,code %in% select_code)
+
+ss = filter(select_stock,date == '2012-12-31' | date == '2013-12-31')
+ss = droplevels(ss)
+
+ss_group = group_by(ss,code)
+ss_result = summarise(ss_group,
+                    performance = (first(close)-last(close))/last(close)
+                    )
+# add the under value ratio to final report
+ss_under = merge(ss_result,s2013_input,by = 'code')
+
+```
+
+# find the under value symbols
+
+全部区间内的偏离排名
+
+```{r}
+
+under_all = group_by(stock,code)
+unall = summarise(under_all,under_ratio = first(close)/median(close))
+unall_sort = arrange(unall,under_ratio)
+unall_select = head(unall_sort)
+kable(unall_select)
+
+```
+
+下面是选定区间的排名
+
+```{r}
+
+select_stock = filter(stock,date >= '2016-01-01' & date<= '2016-12-31')
+under_all = group_by(select_stock,code)
+unall = summarise(under_all,under_ratio = first(close)/median(close))
+unall_sort = arrange(unall,under_ratio)
+unall_select = head(unall_sort)
+kable(unall_select)
+
+
+```
+
+

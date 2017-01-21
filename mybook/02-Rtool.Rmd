@@ -68,6 +68,11 @@ R,Python,甚至还有excel
 
 quandl上国家统计局的入口：https://www.quandl.com/data/NBSC-National-Bureau-of-Statistics-of-China
 
+人民银行的入口：https://www.quandl.com/data/PBCHINA-People-s-Bank-of-China
+
+人力资源与社会保障部的入口：https://www.quandl.com/data/MOHRSS-Chinese-Ministry-of-Human-Resources-and-Social-Security
+
+
 ![national bureau of statisitics of china](/pic/02_nbsc.png)
 
 ## 城镇居民CPI数据 ##
