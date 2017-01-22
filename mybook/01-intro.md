@@ -1,10 +1,3 @@
----
-output: 
-  html_document: 
-    keep_md: yes
-    number_sections: yes
-    theme: cerulean
----
 # 互联网金融智能交易操作导论 #
 
 ## 金融交易与全球金融危机 ##

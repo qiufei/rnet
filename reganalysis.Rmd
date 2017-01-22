@@ -1,0 +1,80 @@
+---
+title: "回归分析"
+author: "Qiufei"
+date: "1/21/2017"
+output: 
+  word_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE,message = FALSE)
+
+```
+
+
+本次分析任务是对CPI和央行资产负债表增速之间的关系做回归分析。
+
+## 首先是下载数据
+
+```{r}
+library(Quandl)
+# 央行资产负债表增速的quandl code代码是PBCHINA/REP_04.11
+# 中国cpi增速数据的quandl code代码是NBSC/A01030101_M
+codes = c("PBCHINA/REP_04.11","NBSC/A01030101_M")
+
+reg_data = Quandl(codes)
+
+```
+
+## 其次修改下数据集的名字
+
+我们下载的数据已经保存在数据集`reg_data`中，该数据集有三列，第一列是时间数据，第二列是央行资产负债表规模数据，第三列是cpi数据。
+
+第一列的列名Date，比较好认，但是第二列和第三列的列名太长，也不好认。所以我们修改一下列名。
+
+将第一列的列名修改为date，将第二列的列名修改为pbc_asset，将第三列的列名修改为cpi。
+
+```{r}
+
+colnames(reg_data) = c('date','pbc_asset','cpi')
+
+```
+
+
+## 计算央行资产负债表规模的增速
+
+因为15年有些数据没有，所以去掉2015年以前的数据。
+
+又因为我们要计算资产负债表的增速百分比，和CPI的增速百分比，所以要做些转换。
+
+```{r}
+# 为了使用filter函数
+library(dplyr)
+
+# 为了使用ROC函数
+library(TTR)
+
+## drop those NA observations
+reg_data = filter(reg_data,date>'2005-12-31')
+## get growth rate
+reg_data[,2] = ROC(reg_data[,2],type = 'discrete')*100
+reg_data[,3] = reg_data[,3] - 100
+
+```
+
+
+## 最后是对数据进行回归分析
+
+在回归分析中，将cpi作为因变量（Y），将pbc_asset作为自变量（X）。
+
+```{r}
+
+my_model = lm(cpi~pbc_asset,reg_data)
+
+summary(my_model)
+
+
+```
+
