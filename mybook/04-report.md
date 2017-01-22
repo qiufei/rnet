@@ -1,10 +1,3 @@
----
-output: 
-  html_document: 
-    keep_md: yes
-    number_sections: yes
-    theme: cerulean
----
 # 智能交易分析报告的生成：利用Rmarkdown生产可重复的报告 #
 
 ## 为什么要写代码而不是点菜单？ ##

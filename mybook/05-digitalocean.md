@@ -1,10 +1,3 @@
----
-output: 
-  html_document: 
-    keep_md: yes
-    number_sections: yes
-    theme: cerulean
----
 # 智能交易的云计算平台：以DigitalOcean为例 #
 
 ## 计算能力是我们实现分析的基础 ##

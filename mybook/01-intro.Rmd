@@ -67,7 +67,9 @@ shiller 说的good finance
 
 ## R语言官方网站 ##
 
-https://www.r-project.org
+> https://www.r-project.org
+
+![R的图标长这样](../pic/01-rlogo.png)
 
 ## R扩展包包网站 ##
 

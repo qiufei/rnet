@@ -1,10 +1,3 @@
----
-output: 
-  html_document: 
-    keep_md: yes
-    number_sections: yes
-    theme: cerulean
----
 
 # 智能交易操作的工具：以R语言为例 #
 
