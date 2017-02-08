@@ -6,7 +6,7 @@
 
 关于课程的提问和讨论，可以到课程的互动讨论界面进行，网址如下：
 
-<https://github.com/qiufei/banking/issues>
+<https://github.com/qiufei/rnet/issues>
 
 也欢迎对本课程和老师的授课进行批评吐槽，我看到会努力改进。
 
@@ -35,7 +35,9 @@ github网站网址<https://github.com>
 
 ### （二）创建Issues，自己提新的问题。
 
-注册账户后，登陆你的github账户，然后打开这个网址<https://github.com/qiufei/banking/issues>。可以在此进行提问和讨论。方法如下：
+注册账户后，登陆你的github账户，然后打开这个网址<https://github.com/qiufei/rnet/issues>，可以在此进行提问和讨论。（注意这里的截图是另一门课程的，但是方法是一致的）
+
+方法如下：
 
 1. 新建Issue
 
