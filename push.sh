@@ -12,4 +12,4 @@ git commit -a -m " readme better"
 git push
 
 # finally
-echo "数据已经更新到github！" 
+echo "rnet数据已经更新到github！" 
