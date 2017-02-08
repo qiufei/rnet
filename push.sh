@@ -7,7 +7,7 @@ git pull
 
 git add --all 
 
-git commit -a -m " readme better"
+git commit -a -m " readme better 2"
 
 git push
 

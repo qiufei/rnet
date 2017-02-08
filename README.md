@@ -1,5 +1,4 @@
-# rnet
-互联网金融智能交易操作
+# 互联网金融智能交易操作
 
 ## 一、课程大纲
 
@@ -38,7 +37,9 @@ github网站网址<https://github.com>
 
 ### （二）创建Issues，自己提新的问题。
 
-注册账户后，登陆你的github账户，然后打开这个网址<https://github.com/qiufei/rnet/issues>，可以在此进行提问和讨论。（注意这里的截图是另一门课程的，但是方法是一致的）
+注册账户后，登陆你的github账户，然后打开这个网址<https://github.com/qiufei/rnet/issues>，可以在此进行提问和讨论。
+
+**注意:这里的截图是另一门课程的，但是方法是一致的**
 
 方法如下：
 
