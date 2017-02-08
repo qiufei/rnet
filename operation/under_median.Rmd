@@ -180,6 +180,14 @@ under_all = merge(under_close_top10[,c("code","under_ratio","newest_close")],und
 
 ```
 
+## 显示操作报告
+
+```{r}
+
+
+kable(under_all)
+
+```
 
 
 
