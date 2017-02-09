@@ -11,7 +11,22 @@
 
 [本章PPT](https://rawgit.com/qiufei/rnet/master/PPT/02-Rtool.html)
 
+### 第四章
 
+[PPT](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/04-report.html)
+
+### 第五章
+
+[ppt](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/05-digitalocean.html)
+
+### 第六章
+
+[PPT](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/06-project.html)
+
+
+### 第七章
+
+[PPT](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/07-highfrequence.html)
 
 
 
