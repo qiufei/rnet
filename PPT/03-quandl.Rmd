@@ -1,9 +1,12 @@
 ---
-output: 
-  html_document: 
-    keep_md: yes
-    number_sections: yes
-    theme: cerulean
+title: "第三章 网络数据的获取和使用"
+author: "Qiufei"
+date: "万里学院"
+output:
+  revealjs::revealjs_presentation:
+    theme: sky
+    reveal_options:
+      slideNumber: true
 ---
 
 ```{r setup, include=FALSE}

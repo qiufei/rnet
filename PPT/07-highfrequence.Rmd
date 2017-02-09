@@ -1,8 +1,17 @@
-# 高频（High-frequency）数据交易简介 #
+---
+title: "第七章 高频交易"
+author: "Qiufei"
+date: "万里学院"
+output:
+  revealjs::revealjs_presentation:
+    theme: sky
+    reveal_options:
+      slideNumber: true
+---
 
-## 高频数据的特点。 ##
+## 高频数据的特点 ##
 
-## 高频数据的应用范围 。 ##
+## 高频数据的应用范围  ##
 
-## 高频交易策略选介。 ##
+## 高频交易策略选介 ##
 

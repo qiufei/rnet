@@ -1,11 +1,13 @@
 ---
-output: 
-  html_document: 
-    keep_md: yes
-    number_sections: yes
-    theme: cerulean
+title: "第五章 智能交易的云计算平台：以DigitalOcean为例 "
+author: "Qiufei"
+date: "万里学院"
+output:
+  revealjs::revealjs_presentation:
+    theme: sky
+    reveal_options:
+      slideNumber: true
 ---
-# 智能交易的云计算平台：以DigitalOcean为例 #
 
 ## 计算能力是我们实现分析的基础 ##
 
@@ -60,6 +62,8 @@ output:
 - 百度云一个月费用是45元人民币。
 - digitalocean一个月费用是5美元，不到35元人民币。
 
+## 为什么选择DigitalOcean平台 ##
+
 2. 学习与服务
 
 - digitalocean有完善的教程，基本上你想在云平台上实现的事情，都会有详细的帖子教你怎么操作。起步早的云平台比如亚马逊的aws也有这个优点。
@@ -74,12 +78,12 @@ output:
 `#cloud-config`
 
 `runcmd:`
-`# Install rstudio`
-`  - docker pull rocker/hadleyverse`
-`# deploy rstudio-server`
-`  - docker run -d -p 8787:8787 -e USER=fei -e PASSWORD=123  rocker/hadleyverse`
 
-注意自己在设置的时侯，把`USER=`后面的`fei`改成你自己的用户名，把`PASSWORD=`后面的`123`改成你自己想设置的密码。
+`  - docker pull rocker/hadleyverse`
+
+`  - docker run -d -p 8787:8787 rocker/hadleyverse`
+
+安装完毕后，登陆你的服务器，用户名和密码都为rstudio
 
 ## 在自己的服务器上定时更新分析报告 ##
 
