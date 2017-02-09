@@ -13,8 +13,6 @@ output:
 knitr::opts_chunk$set(message = FALSE)
 ```
 
-# 互联网金融数据的获取和使用：以R与Quandl网站的配合为例 #
-
 ## 安装和配置Quandl扩展包。 ##
 * 网站注册，获得API key
 
@@ -29,7 +27,7 @@ knitr::opts_chunk$set(message = FALSE)
 * google finance 深证股票quandl code构成 `GOOG/`+`SHE`+`股票代码`
 比如万科的quandl code代码是`GOOG/SHE_000002`
 
-## 为什么要画图？##
+## 我们现在的位置##
 
 * 操作的流程：数据 -- 分析 -- 策略 -- 交易
 
@@ -37,11 +35,12 @@ knitr::opts_chunk$set(message = FALSE)
 
 * 现在我们进入数据分析的环节
 
-## 为什么要画图？ ##
+## 为什么要画图 ##
 
 数据分析有两种方式：
 
 1. 直观的数据展示分析，也就是画图
+
 2. 模式、关系识别，也就是数据挖掘，统计建模的内容
 
 我们也从直观的图形分析入手。
@@ -89,7 +88,7 @@ pic_cn
 
 ```
 
-## 疑问
+## 疑问 ##
 
 * 这个图好像不怎么好看嘛？
 
@@ -97,7 +96,7 @@ pic_cn
 
 * 关键是，这个单线条图，quandl网站本来就有，我干嘛还要自己做？！
 
-##  R中的美图秀秀 ggthemes
+##  R中的美图秀秀 ggthemes ##
 
 ```{r}
 # ggthemes 宏包，专门美化ggplot2包做出来的图形
@@ -108,7 +107,7 @@ pic_cn+theme_economist()
 
 ```
 
-## 常用theme 主题
+## 常用theme 主题 ##
 
 * theme_economist
 * theme_wsj
@@ -118,14 +117,14 @@ pic_cn+theme_economist()
 pic_cn+theme_wsj()
 ```
 
-## 多国数据的比较
+## 多国数据的比较 ##
 
 ```{r}
 
 ## 找到中国，美国和日本的股市市值占GDP的比重后，把她们放到一起，以便于quandl函数能够获得多个数据
 codes = c('WGFD/CHN_GFDD_DM_01','WGFD/USA_GFDD_DM_01','WGFD/JPN_GFDD_DM_01')
 
-## 获取多个数据
+## 获取多个数据 ##
 stm = Quandl(codes)
 
 kable(tail(stm))
@@ -133,7 +132,7 @@ kable(tail(stm))
 
 ```
 
-## 给数据集重命名
+## 给数据集重命名 ##
 
 ```{r}
 
@@ -146,7 +145,7 @@ kable(tail(stm))
 
 ```
 
-## ggplot作图对输入数据的要求
+## ggplot作图对输入数据的要求 ##
 
 * ggplot作图的原始数据要求是x轴数据一列，Y轴数据一列
 
@@ -154,7 +153,7 @@ kable(tail(stm))
 
 * ggpplot画图的时候，Date作为X轴的数据，Value作为Y轴的数据
 
-## 将款型数据转换为长型数据
+## 将款型数据转换为长型数据 ##
 
 * 数据类型转换的宏包**reshape2**
 
@@ -173,7 +172,7 @@ kable(tail(stm_plot))
 
 ```
 
-## 多个最终作图
+## 多个最终作图 ##
 
 ```{r,warning=FALSE}
 
@@ -187,7 +186,7 @@ pic_compare
 
 ```
 
-## 用ggtheme宏包来美图秀秀一下
+## 用ggtheme宏包来美图秀秀一下 ##
 
 ```{r,warning=FALSE}
 
@@ -198,7 +197,7 @@ pic_compare + theme_economist()
 
 
 
-## 彩蛋： 如何强调某一时间区间呢，比如危机时期？
+## 彩蛋： 如何强调某一时间区间呢，比如危机时期？##
 
 * 2007-2008 年间，全球发生了金融危机，如果要强调这一时间的数据
 
