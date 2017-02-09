@@ -11,6 +11,10 @@
 
 [PPT](https://rawgit.com/qiufei/rnet/master/PPT/02-Rtool.html)
 
+### 第三章
+
+[PPT](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/03-quandl.html)
+
 ### 第四章
 
 [PPT](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/04-report.html)
