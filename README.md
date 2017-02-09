@@ -4,12 +4,12 @@
 
 ### 第一章 导论
 
-[本章PPT](https://rawgit.com/qiufei/rnet/master/PPT/01-intro.html)
+[PPT](https://rawgit.com/qiufei/rnet/master/PPT/01-intro.html)
 
 
 ### 第二章
 
-[本章PPT](https://rawgit.com/qiufei/rnet/master/PPT/02-Rtool.html)
+[PPT](https://rawgit.com/qiufei/rnet/master/PPT/02-Rtool.html)
 
 ### 第四章
 
@@ -17,7 +17,7 @@
 
 ### 第五章
 
-[ppt](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/05-digitalocean.html)
+[PPT](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/05-digitalocean.html)
 
 ### 第六章
 
