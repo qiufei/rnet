@@ -123,7 +123,7 @@ stock_return = transmute(stock_sort,
 ```{r na.omit}
 
 return = na.omit(stock_return) # 清除没有收益率的第一期的NA值
-
+save(return,file = "return.rda") # 将收益率数据集到当前路径下
 head(return)
 
 ```
