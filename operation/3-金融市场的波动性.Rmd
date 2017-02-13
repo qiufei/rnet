@@ -1,0 +1,65 @@
+---
+title: "金融市场市场的波动性"
+author: "邱飞"
+date: "万里学院"
+output:
+  revealjs::revealjs_presentation:
+    theme: sky
+    reveal_options:
+      slideNumber: true
+---
+
+##  数据和宏包设置
+
+```{r setup,message=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message =FALSE)
+library(Quandl)
+library(dplyr)
+library(reshape2)
+library(ggplot2)
+library(ggthemes)
+load("stock_clean.rda")
+```
+
+## 获得股市整体的波动性
+
+* 我们以时间序列的标准差来表示波动性。
+
+* 先获得上证指数的波动性
+
+* 再获得深证指数的波动性
+
+* 最后我们自己计算一个按照交易量作为权重的全部市场的波动性。
+
+
+## 上证指数的波动性
+
+计算上证指数30天移动标准差
+
+```{r shanghai index sd}
+
+sh_index = filter(stock_clean,code == "SHA000001")
+
+sh_sort = arrange(sh_index,date)
+
+sh_close = select(sh_sort, date,close)
+
+sh_sd = transmute(sh_close,
+                  date = date,
+                  sd = rollapply(close,30,sd,na.rm = TRUE,fill = NA))
+
+sd_plot = na.omit(sh_sd) # remove Nas from dataframe
+
+sh_sd_p = ggplot(sd_plot,aes(x = date ,y = sd))+
+          geom_line(color = "red")+
+          theme_economist()
+
+```
+
+## 上证波动性图示
+
+```{r sh sd plot,echo= FALSE}
+
+sh_sd_p
+
+```

@@ -1,0 +1,150 @@
+---
+title: "数据集清洗"
+author: "邱飞"
+date: "万里学院"
+output:
+  revealjs::revealjs_presentation:
+    theme: sky
+    reveal_options:
+      slideNumber: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,message = FALSE)
+load("stock.rda")
+load("return.rda")
+```
+
+
+## 数据清洗：纠正或去除不正确的数据
+
+* 在前面一讲的数据集分组计算和筛选部分，我们发现上证google finance的上证指数有几处错误。
+
+* 于是我们会想，只是上证指数的数据有错吗？其他数据有没有错？
+
+
+## 于是，我们需要检查数据
+
+* 在前一讲，我们是通过图形来发现错误的
+
+* 而且，我们花了三个图才发现那三个错误
+
+* 现在我们有1500多条数据，难道我们也要一个个画图才能发现吗？
+
+## 显然，我们需要一种系统的方式
+
+* 所谓系统的方式，就是批量整体操作的快捷方式
+
+* 能用什么方法快速发现错误呢？
+
+* 我们想到，上一将辛苦计算得到的每只股票的日收益率数据似乎还没有用过。
+
+## 考虑通过日收益率数据来进行数据集清洗
+
+* 因为有涨跌幅限制，所以股票的日收益率应该在-10%和10%之间
+
+* 新股上市首日不受10%的涨幅限制，但是也不太可能超过100%
+
+* 所以我们的清洗条件为：去掉日收益率小于-0.1，或者大于1的数据。
+
+## 清洗
+
+```{r cleaning1}
+
+library(dplyr)
+return_clean = filter(return,return>=-0.11 & return <= 1)
+
+```
+
+## 看一下我们清洗的成果
+
+```{r cleaning result}
+
+#清洗前的记录数
+(number_before = nrow(return))
+
+#清洗后的记录数
+(number_after = nrow(return_clean))
+
+#被清洗掉的数据条数
+number_kill = number_before - number_after
+
+number_kill
+
+```
+
+数据清洗前，一共有`r number_before`条数据，数据清洗后，一共有`r number_after`条数据，总共清洗了`r number_kill`条数据。
+
+## 用清洗过后的数据直接画图
+
+* 看看与之前我们逐步清洗出来的结果是否一致
+
+
+```{r hushen plot}
+
+hushen = filter(return_clean,
+                 code == "SHA000001" | code == "SHE399001")
+library(ggplot2)
+hushen_plot = ggplot(hushen,
+                    aes(x = date, y = return,color = code))+
+                    geom_line()
+
+```
+
+## show plot
+
+```{r show plot,echo=FALSE}
+hushen_plot
+```
+
+## 对股票数据集进行清洗
+
+* 既然return数据集中有错误的数据
+
+* 而return数据集又是从stock数据集计算得到的
+
+* 那么着说明stock数据集中也有错误的数据存在
+
+## 于是，以收益率数据集为条件，对股票数据集进行清洗
+
+* stock和return都有code和date列
+
+* return清洗的过程是去掉一些不符合条件的记录，也就是说它的date的范围会变小
+
+* 于是我们可以用return里面的date的取值来替代stock里面的date，这样就起到了**近似**对stock清洗的效果。
+
+## 清洗股票数据集
+
+* 使用`dplyr`里的`inner_join`函数来合并stock和清洗后的return数据集。
+
+* `inner_join`函数`by`后面的参数是合并的参照变量
+
+```{r stock cleaning}
+stock_grouped = group_by(stock,code)
+
+stock_clean = inner_join(stock_grouped,return_clean,
+                         by = c("code","date"))
+
+```
+
+## 保存清洗过后的股票数据集
+
+```{r save cleaned stock}
+
+save(stock_clean,file = "stock_clean.rda")
+
+```
+
+* 至此，本讲的数据清洗部分完成了。后续我们分析的数据集将是`stock_clean`。
+
+##  一个问题
+
+* 为什么我在之前说这的清洗方法是对stock的**近似**清洗？
+
+## 总结
+
+* 免费的公开数据有很多错误，所以在使用时要特别注意。
+
+* 数据清洗和数据预处理都是十分费时的准备工作，所以在实战中，一般都购买处理好了的商业数据。
+
+
