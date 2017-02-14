@@ -38,19 +38,19 @@ load("stock_clean.rda")
 
 ```{r shanghai index sd}
 
-sh_index = filter(stock_clean,code == "SHA000001")
+sha_index = filter(stock_clean,code == "SHA000001")
 
-sh_sort = arrange(sh_index,date)
+sha_sort = arrange(sha_index,date)
 
-sh_close = select(sh_sort, date,close)
+sha_close = select(sha_sort, date,close)
 
-sh_sd = transmute(sh_close,
+sha_sd = transmute(sha_close,
                   date = date,
                   sd = rollapply(close,30,sd,na.rm = TRUE,fill = NA))
 
-sd_plot = na.omit(sh_sd) # remove Nas from dataframe
+sda_plot = na.omit(sha_sd) # remove Nas from dataframe
 
-sh_sd_p = ggplot(sd_plot,aes(x = date ,y = sd))+
+sha_sd_p = ggplot(sda_plot,aes(x = date ,y = sd))+
           geom_line(color = "red")+
           theme_economist()
 
@@ -58,8 +58,125 @@ sh_sd_p = ggplot(sd_plot,aes(x = date ,y = sd))+
 
 ## 上证波动性图示
 
-```{r sh sd plot,echo= FALSE}
+```{r sha sd plot,echo= FALSE}
 
-sh_sd_p
+sha_sd_p
+
+```
+
+
+## 深证指数的波动性
+
+计算深证指数30天移动标准差
+
+```{r shenzhen index sd}
+
+she_index = filter(stock_clean,code == "SHE399001")
+
+she_sort = arrange(she_index,date)
+
+she_close = select(she_sort, date,close)
+
+she_sd = transmute(she_close,
+                  date = date,
+                  sd = rollapply(close,30,sd,na.rm = TRUE,fill = NA))
+
+sde_plot = na.omit(she_sd) # remove Nas from dataframe
+
+she_sd_p = ggplot(sde_plot,aes(x = date ,y = sd))+
+          geom_line(color = "blue")+
+          theme_economist()
+
+```
+
+## 深证波动性图示
+
+```{r she sd plot,echo= FALSE}
+
+she_sd_p
+
+```
+
+
+## 我们自己来计算的波动率
+
+* 计算出每只股票的30天移动标准差
+
+* 以每日股票当日的交易额占改日数据集内股票总交易额的比重为权重
+
+* 加总得到沪深两市的波动率指标
+
+## 计算每只股票的三十日移动标准差
+
+```{r 30 sd for every }
+
+wanli_index = filter(stock_clean,code != "SHA000001"
+                               & code != "SHE399001")
+
+wanli_sort = arrange(wanli_index,date)
+
+wanli_close_volume = select(wanli_sort, date,close,volume)
+
+wanli_sd = mutate(wanli_close_volume,
+                  sd = rollapply(close,30,sd,na.rm = TRUE,fill = NA))
+```
+
+## 计算每日股票按交易额计算的占比
+
+* 需要对数据按照日期分组。
+
+```{r every weight}
+
+wanli_ungroup = ungroup(wanli_close_volume)
+
+wanli_group_date = group_by(wanli_ungroup,date)
+
+wanli_weight = transmute(wanli_group_date,
+                         code =code,
+                         weight = volume/sum(volume))
+```
+
+## 合并标准差和权重数据，以计算每只股票每日的加权标准差
+
+```{r wanli}
+# 合并标准差和权重数据集
+wanli_sd_weight = inner_join(wanli_sd,wanli_weight,
+                             by =c("code","date"))
+# 去掉没有记录的行
+wanli_nona = na.omit(wanli_sd_weight)
+
+# 计算每只股票每日加权标准差
+wanli_big_sd = transmute(wanli_nona,
+                       date = date,
+                       big_sd = sd*weight)
+```
+
+## 按日期汇总，求的最终的每日市场标准差
+
+```{r big sd}
+# 取消之前的按照code分组
+wanli_big_ungroup = ungroup(wanli_big_sd)
+
+# 重新按照date分组
+wanli_big_date = group_by(wanli_big_ungroup,date)
+
+# 加总得到每日市场标准差
+wanli_index_sd = summarise(wanli_big_date,
+                           wanli_sd = sum(big_sd))
+```
+
+## 画图过程
+
+```{r wanli sd plot}
+wanli_sd_p = ggplot(wanli_index_sd,aes(x = date ,y = wanli_sd))+
+                geom_line(color = "red")+
+                theme_economist()
+```
+
+## 最终，我们自己计算得到的沪深两市波动率
+
+```{r show wanli index sd,echo=FALSE}
+
+wanli_sd_p
 
 ```
