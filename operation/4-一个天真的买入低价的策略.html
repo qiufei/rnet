@@ -120,111 +120,66 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </section>
 
 <section class="slide level2">
-<h2>我们的目的</h2>
+<h2>找出低价股的步骤</h2>
 <ul>
-<li><p>先计算出每只股票最新收盘价与其前一自然年度中收盘价中位数之比under_ratio，</p></li>
+<li><p>先计算出每只股票最新收盘价与其前30个交易日的收盘价中位数之比under_ratio，</p></li>
 <li><p>然后按照under_ratio的值对股票进行升序排序，</p></li>
 <li><p>然后从中选出排在最前面的10只股票。</p></li>
 </ul>
 <p>这10只股票我们认为价格较低。</p>
 </section>
 <section class="slide level2">
-<h2>载入宏包、数据集并设定一些参数</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 载入宏包dplyr，此包的作用是对数据集(dataframe)进行操作</span>
-<span class="kw">library</span>(dplyr)
-
-<span class="co"># 载入宏包lubridate，此包的作用是对日期数据进行操作</span>
-<span class="kw">library</span>(lubridate)
-
-<span class="co"># 载入股市交易数据</span>
-<span class="kw">load</span>(<span class="st">'stock_clean.rda'</span>)
-
-<span class="co"># 我们要过去一年的数据来计算股价的中位数</span>
-<span class="co"># 所以先设置好历史数据的时间区间，从2015年12月31日到2016年12月31日</span>
-end_date =<span class="st"> </span><span class="kw">ymd</span>(<span class="st">'2016-12-31'</span>)
-begin_date =<span class="st"> </span>end_date -<span class="st"> </span><span class="kw">years</span>(<span class="dv">1</span>)</code></pre></div>
-</section>
-<section class="slide level2">
-<h2>从股市数据集中提取出我们需要的历史区间内的数据</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># summary()函数可以看数据集的结果</span>
-<span class="co"># 从函数返回的结果,我们可以看到数据集stock的原始区间是从2012年11月26日开始，到2017年1月18日结束</span>
-
-<span class="kw">summary</span>(stock_clean)</code></pre></div>
-<pre><code>##         code              date                 open         
-##  SHE002066:   1007   Min.   :2012-11-27   Min.   :    0.53  
-##  SHE002096:   1007   1st Qu.:2014-08-15   1st Qu.:    8.12  
-##  SHE002187:   1007   Median :2015-05-26   Median :   12.20  
-##  SHE002419:   1007   Mean   :2015-05-02   Mean   :   28.27  
-##  SHE002420:   1007   3rd Qu.:2016-03-16   3rd Qu.:   18.30  
-##  SHE399001:   1007   Max.   :2017-01-18   Max.   :18182.64  
-##  (Other)  :1005991                                          
-##       high               low               close         
-##  Min.   :    0.53   Min.   :    0.53   Min.   :    0.53  
-##  1st Qu.:    8.29   1st Qu.:    7.98   1st Qu.:    8.14  
-##  Median :   12.49   Median :   11.95   Median :   12.23  
-##  Mean   :   28.79   Mean   :   27.79   Mean   :   28.32  
-##  3rd Qu.:   18.77   3rd Qu.:   17.90   3rd Qu.:   18.35  
-##  Max.   :18211.76   Max.   :17921.91   Max.   :18098.27  
-##                                                          
-##      volume              return         
-##  Min.   :0.000e+00   Min.   :-0.109980  
-##  1st Qu.:3.936e+06   1st Qu.:-0.014041  
-##  Median :8.883e+06   Median : 0.001724  
-##  Mean   :2.836e+07   Mean   : 0.001951  
-##  3rd Qu.:2.019e+07   3rd Qu.: 0.017564  
-##  Max.   :3.153e+10   Max.   : 1.000000  
-## </code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 使用dplyr中的filter函数，提取我们需要的时间段内的数据</span>
-past_year =<span class="st"> </span><span class="kw">filter</span>(stock_clean,date &gt;=<span class="st"> </span>begin_date &amp;<span class="st"> </span>date&lt;=<span class="st"> </span>end_date)</code></pre></div>
-<p>为什么我们设定的结束日期是2016年12月31日，而summary函数返回的结果显示日期只到2016年12月30日呢？因为16年12月31日那天是休息日，股市不开始，所以那天没有数据。</p>
-</section>
-<section class="slide level2">
-<h2>股票的最新价格与历史中位数的比值</h2>
+<h2>获得每个股票最近三十个交易日的数据</h2>
 <ul>
-<li><p>这里又需要我们之前操作课上讲到的分组</p></li>
-<li><p>分组和筛选，需要熟练掌握</p></li>
+<li><p>因为所有股票在一个数据集里，所以我们依然需要对院士数据进行分组</p></li>
+<li><p>但我们的<code>stock_clean</code>数据集已经按<code>code</code>变量分过组了，所以不需再做分组操作。</p></li>
+<li><p><code>slice</code>函数来自<code>ldpyr</code>宏包</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+number_of_days =<span class="st"> </span><span class="dv">30</span>
+stock_latest =<span class="st"> </span><span class="kw">slice</span>(stock_clean,<span class="dv">1</span>:number_of_days)</code></pre></div>
+</section>
+<section class="slide level2">
+<h2>一个小小的数据清洗过程</h2>
+<ul>
+<li><p>google finance 中不是所有股票数据都在同步更新</p></li>
+<li><p>所以我们要去掉近30天没有数据的股票</p></li>
+<li><p>stock_clean数据集中最新日期为2017年1月18日，所以我们去掉日期在206年12月以前的数据，大致可以保证留下的都是近30天有数据更新的股票。</p></li>
 </ul>
 </section>
 <section class="slide level2">
-<h2>对股票数据进行分组</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 我们要对每只股票的收盘价（close）计算under_ratio，</span>
-<span class="co"># 所以要对数据先按股票代码进行分组，分组函数是dplyr包中的group_by()函数</span>
-<span class="co"># group_by函数的第一个参数是需要进行分组的数据集，本次分组对象为past_year</span>
-<span class="co"># group_by函数的第二个参数是分组的标记，就是按照什么标准分组，本次是按照股票代码code分组</span>
-past_group =<span class="st"> </span><span class="kw">group_by</span>(past_year,code)</code></pre></div>
+<h2>去掉没有即时更新的股票</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stock_latest_clean =<span class="st"> </span><span class="kw">filter</span>(stock_latest,date &gt;=<span class="st"> &quot;2016-12-01&quot;</span>)</code></pre></div>
 </section>
 <section class="slide level2">
-<h2>分别计算每只股票的最新价格与其历史中位数的比值</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">past_median =<span class="st"> </span><span class="kw">summarise</span>(past_group,
-                        <span class="dt">history_date =</span> <span class="kw">first</span>(date),
+<h2>获得每只股票当前区间的收盘价格中位数</h2>
+<ul>
+<li>latest_date 记录的是股票交易的最后一天的时间</li>
+<li>股票数据是按照时间降序排列的，也就说日期越晚的数据排在越前面</li>
+<li>first函数是获取排在第一位的数据</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">latest_median =<span class="st"> </span><span class="kw">summarise</span>(stock_latest_clean,
+                        <span class="dt">latest_date =</span> <span class="kw">first</span>(date),
                         <span class="dt">median_close =</span> <span class="kw">median</span>(close)
-                        )
-
-<span class="co"># history_date 记录的是股票交易的最后一天的时间</span>
-<span class="co"># 股票数据是按照时间降序排列的，也就说日期越晚的数据排在越前面</span>
-<span class="co"># first函数是获取排在第一位的数据</span></code></pre></div>
+                        )</code></pre></div>
 </section>
 <section class="slide level2">
-<h2>每只股票最新的价格</h2>
-<p>同样，对每只股票进行操作的时侯，我们需要先对数据集按照股票代码进行分组</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">stock_group =<span class="st"> </span><span class="kw">group_by</span>(stock_clean,code)
-
-current_close =<span class="st"> </span><span class="kw">summarise</span>(stock_group,
-                          <span class="dt">newest_date =</span> <span class="kw">first</span>(date),
-                          <span class="dt">newest_close =</span> <span class="kw">first</span>(close)
-                          )</code></pre></div>
+<h2>获得每只股票当前区间的最新收盘价格</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">latest_close =<span class="st"> </span><span class="kw">summarise</span>(stock_latest_clean,
+                          <span class="dt">latest_date =</span> <span class="kw">first</span>(date),
+                          <span class="dt">latest_close =</span> <span class="kw">first</span>(close))</code></pre></div>
 </section>
 <section id="merge" class="slide level2">
 <h2>merge历史中位数和最新价格</h2>
 <ul>
-<li>保存历史中位数的数据集past_median</li>
-<li>保存最新价格的数据集current_close</li>
+<li>保存历史中位数的数据集latest_median</li>
+<li>保存最新价格的数据集latest_close</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># merge 函数有三个参数</span>
 <span class="co"># 第一和第二个是要合并的数据集的名字</span>
 <span class="co"># 第三个是对数据集进行合并的标示变量，可以理解为将什么变量作为不同数据的身份证</span>
-past_current =<span class="st"> </span><span class="kw">merge</span>(past_median,current_close,
-                     <span class="dt">by =</span> <span class="st">&quot;code&quot;</span>) </code></pre></div>
+median_close =<span class="st"> </span><span class="kw">merge</span>(latest_median,latest_close,
+                     <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;code&quot;</span>,<span class="st">&quot;latest_date&quot;</span>)) </code></pre></div>
 </section>
 <section class="slide level2">
 <h2>为什么要合并这两个数据集</h2>
@@ -232,145 +187,202 @@ past_current =<span class="st"> </span><span class="kw">merge</span>(past_median
 <li>当需要对两个相关的变量进行操作的时侯，最好把她们放到一个对象里去。</li>
 </ul>
 <blockquote>
-<p>你们会遇见不同的人，走过不同的路，但是在R数据分析里，最好把相关数据放到同一dataframe中。</p>
+<p>你们会遇见不同的人，走过不同的路，但是在R数据分析里，最好把相关数据放到同一个dataframe中。</p>
 </blockquote>
 </section>
 <section class="slide level2">
 <h2>计算低估率指标</h2>
+<p>定义地低估率计算公式：</p>
+<blockquote>
+<p>under_ratio = latest_close/median_close)</p>
+</blockquote>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">under_close =<span class="st"> </span><span class="kw">mutate</span>(median_close,
+                     <span class="dt">under_ratio =</span> latest_close/median_close)</code></pre></div>
 <ul>
-<li><p>past_current数据集现在多了低估率这一列</p></li>
+<li><p>median_close数据集现在多了低估率这一列</p></li>
 <li><p>新的数据集命名为under_close</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">under_close =<span class="st"> </span><span class="kw">mutate</span>(past_current,
-                     <span class="dt">under_ratio =</span> newest_close/median_close)</code></pre></div>
 </section>
 <section class="slide level2">
-<h2>在新的数据集排序</h2>
+<h2>获得最被低估的十只股票</h2>
 <ul>
-<li><p>新的操作对象数据集为under_close</p></li>
-<li><p>对其中的股票按照低估率升序排列</p></li>
+<li><p>对under_close数据集按照低估率升序排列</p></li>
+<li><p>排在前10名的就是罪被低估的十只股票</p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">under_close_sort =<span class="st"> </span><span class="kw">arrange</span>(under_close,under_ratio)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">under_close_sort =<span class="st"> </span><span class="kw">arrange</span>(under_close,under_ratio)
+
+<span class="co"># 取出under_close_sort中排名前10的股票</span>
+under_close_top10 =<span class="st"> </span><span class="kw">head</span>(under_close_sort,<span class="dv">10</span>) 
+
+<span class="kw">head</span>(under_close_top10)</code></pre></div>
+<pre><code>##        code latest_date median_close latest_close under_ratio
+## 1 SHA600647  2017-01-18       45.290        30.70   0.6778538
+## 2 SHE002620  2017-01-18       58.585        43.63   0.7447299
+## 3 SHE002656  2017-01-18       21.520        16.20   0.7527881
+## 4 SHA600568  2017-01-18       24.780        18.80   0.7586764
+## 5 SHE002458  2017-01-18       34.765        26.81   0.7711779
+## 6 SHE002486  2017-01-18       10.220         8.10   0.7925636</code></pre>
+</section>
+<section class="slide level2">
+<h2>但是，以什么价格买入呢？</h2>
+<ul>
+<li>我们现在找到了沪深两市除去创业板之外，最被低估的十只股票。</li>
+</ul>
+<blockquote>
+<p>⚠️ 注意：只是我们天真的认为的最被低估的股票，不构成买入建议！！！</p>
+</blockquote>
+<blockquote>
+<p>there is a <strong>lie</strong> even in be<strong>lie</strong>ve</p>
+</blockquote>
+<ul>
+<li>但是，如果真有不差钱的土豪要购买的话，你建议他以什么价格买入呢？（反正不是我自己的钱😏）</li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>我们想到了均值的好基友</h2>
+<ul>
+<li><p>之前我们在选择低估的股票时用到了中位数</p></li>
+<li><p>中位数可以看作是一种受极端值影响较小的均值</p></li>
+<li><p>均值一般和他的好基友标准差同时出现</p></li>
+<li><p>于是我们决定在从标准差出发，给出具体的买入和卖出建议。</p></li>
+</ul>
 </section>
 <section class="slide level2">
 <h2>确定买入和卖出价格</h2>
+<blockquote>
+<p>收盘价最近300天中位数记为U，最近30天标准差记为D</p>
+</blockquote>
 <ul>
-<li><p>分别计算这10只股票有数据以来的收盘价格的分位数</p></li>
-<li><p>如果股价低于四分之一分位点价格，那么就买入</p></li>
-<li><p>如果股价高于二分之一分位点价格，那么就卖出</p></li>
+<li><p>如果最新收盘价低于U-2D，就买入</p></li>
+<li><p>如果最新收盘价高于U+2D，就卖出</p></li>
 </ul>
 </section>
 <section class="slide level2">
-<h2>获取选定的十只股票的前一年的标准差</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 取出under_close_sort中排名前10的股票</span>
-under_close_top10 =<span class="st"> </span><span class="kw">head</span>(under_close_sort,<span class="dv">10</span>) 
-
-<span class="co"># 提取这10只股票的数据</span>
-under_top10 =<span class="st"> </span><span class="kw">filter</span>(stock_group, 
+<h2>获取选定的十只股票近三十天的标准差</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 提取这10只股票的数据</span>
+under_top10 =<span class="st"> </span><span class="kw">filter</span>(stock_latest_clean, 
                      code %in%<span class="st"> </span>under_close_top10$code) 
 
-<span class="co"># 计算这十只股票的75%分位点价格</span>
-under_top10_q50 =<span class="st"> </span><span class="kw">summarize</span>(under_top10,
-                            <span class="dt">quantile_50 =</span> <span class="kw">quantile</span>(close)[<span class="st">&quot;50%&quot;</span>]) 
+<span class="co"># 获取这十只股票近30天的数据</span>
 
-<span class="co"># 计算这十只股票的25%分位点价格</span>
-under_top10_q25 =<span class="st"> </span><span class="kw">summarize</span>(under_top10,
-                            <span class="dt">quantile_25 =</span> <span class="kw">quantile</span>(close)[<span class="st">&quot;25%&quot;</span>]) </code></pre></div>
+under_top10_30 =<span class="st"> </span><span class="kw">slice</span>(under_top10,<span class="dv">1</span>:<span class="dv">30</span>)
+
+<span class="co"># 计算这十只股票的标准差</span>
+under_top10_sd =<span class="st"> </span><span class="kw">summarize</span>(under_top10_30,<span class="dt">D =</span> <span class="kw">sd</span>(close))</code></pre></div>
 </section>
 <section class="slide level2">
-<h2>将这十只股票的历史价格的交易所用信息汇总</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 将两个分位点价格信息合并到一个数据集中</span>
-under_quantile =<span class="st"> </span><span class="kw">merge</span>(under_top10_q25,
-                       under_top10_q50, 
-                       <span class="dt">by =</span> <span class="st">&quot;code&quot;</span>) 
-
-<span class="co"># 将分位点信息与最新价格、以及under_ratio值合并</span>
-under_all =<span class="st"> </span><span class="kw">merge</span>(under_close_top10[,<span class="kw">c</span>(<span class="st">&quot;code&quot;</span>,<span class="st">&quot;under_ratio&quot;</span>,<span class="st">&quot;newest_close&quot;</span>)],
-                  under_quantile, 
-                  <span class="dt">by =</span> <span class="st">&quot;code&quot;</span>) </code></pre></div>
+<h2>将最新收盘价，中位数和标准差数据合并到一个数据集内</h2>
+<ul>
+<li><p>储存最新收盘价和中位数的数据集是under_close_top10</p></li>
+<li><p>储存近30天标准差的数据集是under_top10_sd</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">operation =<span class="st"> </span><span class="kw">merge</span>(under_close_top10,
+                  under_top10_sd,
+                  <span class="dt">by =</span> <span class="st">&quot;code&quot;</span>)</code></pre></div>
 </section>
 <section class="slide level2">
-<h2>显示操作报告</h2>
+<h2>生成买入和卖出指标</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">operation_index =<span class="st"> </span><span class="kw">transmute</span>(operation,
+                            <span class="dt">code =</span> code,
+                            <span class="dt">date =</span> latest_date,
+                            <span class="dt">low =</span> median_close -<span class="st"> </span><span class="dv">2</span>*D,
+                            <span class="dt">high =</span> median_close +<span class="st"> </span><span class="dv">2</span>*D,
+                            <span class="dt">price =</span> latest_close,
+                            <span class="dt">ratio =</span> under_ratio)
+
+operation_sort =<span class="st"> </span><span class="kw">arrange</span>(operation_index,ratio)</code></pre></div>
+</section>
+<section class="slide level2">
+<h2>生成容易阅读的报告</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">report =<span class="st"> </span><span class="kw">transmute</span>(operation_sort,
+                   <span class="dt">code =</span> code,
+                   <span class="dt">date =</span> date,
+            <span class="dt">buy_or_not =</span> <span class="kw">if_else</span>(price&lt;low,<span class="st">&quot;主人带我回家吧!&quot;</span>,<span class="st">&quot;主公请三思!!!&quot;</span>),
+            <span class="dt">sell_or_not =</span> <span class="kw">if_else</span>(price&gt;=<span class="st"> </span>high,<span class="st">&quot;分手!!!&quot;</span>,<span class="st">&quot;微臣还能效犬马之劳!&quot;</span>),
+            <span class="dt">ratio =</span> ratio)</code></pre></div>
+</section>
+<section class="slide level2">
+<h2>最终报告</h2>
 <table>
 <thead>
 <tr class="header">
 <th style="text-align: left;">code</th>
-<th style="text-align: right;">under_ratio</th>
-<th style="text-align: right;">newest_close</th>
-<th style="text-align: right;">quantile_25</th>
-<th style="text-align: right;">quantile_50</th>
+<th style="text-align: left;">date</th>
+<th style="text-align: left;">buy_or_not</th>
+<th style="text-align: left;">sell_or_not</th>
+<th style="text-align: right;">ratio</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">SHA601222</td>
-<td style="text-align: right;">0.2352005</td>
-<td style="text-align: right;">7.39</td>
-<td style="text-align: right;">24.4900</td>
-<td style="text-align: right;">29.900</td>
+<td style="text-align: left;">SHA600647</td>
+<td style="text-align: left;">2017-01-18</td>
+<td style="text-align: left;">主人带我回家吧!</td>
+<td style="text-align: left;">微臣还能效犬马之劳!</td>
+<td style="text-align: right;">0.6778538</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">SHE002113</td>
-<td style="text-align: right;">0.3306931</td>
-<td style="text-align: right;">8.35</td>
-<td style="text-align: right;">8.3200</td>
-<td style="text-align: right;">14.360</td>
+<td style="text-align: left;">SHE002620</td>
+<td style="text-align: left;">2017-01-18</td>
+<td style="text-align: left;">主人带我回家吧!</td>
+<td style="text-align: left;">微臣还能效犬马之劳!</td>
+<td style="text-align: right;">0.7447299</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">SHE002118</td>
-<td style="text-align: right;">0.4804027</td>
-<td style="text-align: right;">6.68</td>
-<td style="text-align: right;">9.1300</td>
-<td style="text-align: right;">13.525</td>
+<td style="text-align: left;">SHE002656</td>
+<td style="text-align: left;">2017-01-18</td>
+<td style="text-align: left;">主人带我回家吧!</td>
+<td style="text-align: left;">微臣还能效犬马之劳!</td>
+<td style="text-align: right;">0.7527881</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">SHE002141</td>
-<td style="text-align: right;">0.3311538</td>
-<td style="text-align: right;">8.61</td>
-<td style="text-align: right;">7.2175</td>
-<td style="text-align: right;">13.120</td>
+<td style="text-align: left;">SHA600568</td>
+<td style="text-align: left;">2017-01-18</td>
+<td style="text-align: left;">主人带我回家吧!</td>
+<td style="text-align: left;">微臣还能效犬马之劳!</td>
+<td style="text-align: right;">0.7586764</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">SHE002157</td>
-<td style="text-align: right;">0.3541176</td>
-<td style="text-align: right;">6.02</td>
-<td style="text-align: right;">6.8700</td>
-<td style="text-align: right;">7.850</td>
+<td style="text-align: left;">SHE002458</td>
+<td style="text-align: left;">2017-01-18</td>
+<td style="text-align: left;">主人带我回家吧!</td>
+<td style="text-align: left;">微臣还能效犬马之劳!</td>
+<td style="text-align: right;">0.7711779</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">SHE002175</td>
-<td style="text-align: right;">0.3921619</td>
-<td style="text-align: right;">15.31</td>
-<td style="text-align: right;">13.6500</td>
-<td style="text-align: right;">19.580</td>
+<td style="text-align: left;">SHE002486</td>
+<td style="text-align: left;">2017-01-18</td>
+<td style="text-align: left;">主人带我回家吧!</td>
+<td style="text-align: left;">微臣还能效犬马之劳!</td>
+<td style="text-align: right;">0.7925636</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">SHE002256</td>
-<td style="text-align: right;">0.3769666</td>
-<td style="text-align: right;">5.99</td>
-<td style="text-align: right;">6.7650</td>
-<td style="text-align: right;">8.950</td>
+<td style="text-align: left;">SHA600506</td>
+<td style="text-align: left;">2017-01-18</td>
+<td style="text-align: left;">主公请三思!!!</td>
+<td style="text-align: left;">微臣还能效犬马之劳!</td>
+<td style="text-align: right;">0.7951768</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">SHE002421</td>
-<td style="text-align: right;">0.3957714</td>
-<td style="text-align: right;">5.99</td>
-<td style="text-align: right;">16.1650</td>
-<td style="text-align: right;">18.200</td>
+<td style="text-align: left;">SHE002347</td>
+<td style="text-align: left;">2017-01-18</td>
+<td style="text-align: left;">主人带我回家吧!</td>
+<td style="text-align: left;">微臣还能效犬马之劳!</td>
+<td style="text-align: right;">0.7958873</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">SHE002436</td>
-<td style="text-align: right;">0.3605684</td>
-<td style="text-align: right;">6.09</td>
-<td style="text-align: right;">16.7725</td>
-<td style="text-align: right;">20.740</td>
+<td style="text-align: left;">SHA600321</td>
+<td style="text-align: left;">2017-01-18</td>
+<td style="text-align: left;">主人带我回家吧!</td>
+<td style="text-align: left;">微臣还能效犬马之劳!</td>
+<td style="text-align: right;">0.8050847</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">SHE002610</td>
-<td style="text-align: right;">0.2964103</td>
-<td style="text-align: right;">2.89</td>
-<td style="text-align: right;">10.0000</td>
-<td style="text-align: right;">12.560</td>
+<td style="text-align: left;">SHA600084</td>
+<td style="text-align: left;">2017-01-18</td>
+<td style="text-align: left;">主人带我回家吧!</td>
+<td style="text-align: left;">微臣还能效犬马之劳!</td>
+<td style="text-align: right;">0.8101371</td>
 </tr>
 </tbody>
 </table>
