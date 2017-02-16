@@ -98,3 +98,21 @@ output:
 
 * 数据和算法都保存在云端服务器上，不会丢失，也容易保密（云平台和git平台双保险）
 
+## 登陆云服务器
+
+![login](../pic/05-cron-login.png)
+
+## 登陆后的界面
+
+![logged](../pic/05-cron-logged.png)
+
+## 将shell脚本改为可执行
+![exe](../pic/05-cron-exe.png)
+
+## 将脚本运行的时间和内存资源改为无限制
+
+![unlimit](../pic/05-cron-unlimit.png)
+
+## 自动运行的事件设置
+
+![crontab](../pic/05-cron-tab.png)
