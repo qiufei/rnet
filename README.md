@@ -21,7 +21,7 @@
 
 [第七章 高频交易 PPT](https://rawgit.com/qiufei/rnet/master/PPT/07-highfrequence.html)
 
-如果因为网络原因打不开链接，可以在这里下载[这的httml文件](https://github.com/qiufei/rnet/tree/master/PPT)到本地用浏览器打开。
+* 如果因为网络原因打不开链接，可以在这里下载[这的httml文件](https://github.com/qiufei/rnet/tree/master/PPT)到本地用浏览器打开。
 
 ### 操作部分
 
@@ -35,7 +35,7 @@
 
 [4-一个天真的买入低价的策略](https://rawgit.com/qiufei/rnet/master/operation/4-一个天真的买入低价的策略.html)
 
-如果因为网络原因打不开链接，可以在这里下载[这的httml文件](https://github.com/qiufei/rnet/tree/master/operation)到本地用浏览器打开。
+* 如果因为网络原因打不开链接，可以在这里下载[这的httml文件](https://github.com/qiufei/rnet/tree/master/operation)到本地用浏览器打开。
 
 操作部分主要是使用[dplyr](https://cran.r-project.org/web/packages/dplyr/)宏包进行数据操作，用[ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)宏包进行画图。
 
@@ -103,7 +103,7 @@ github网站网址<https://github.com>
 
 <http://138.197.206.152:8787>
 
-由于只有单核，512内存，所以不建议大家不要直接登陆。
+由于只有单核，512内存，一个账号一次只能登陆一个人，所以不建议大家不要直接登陆。
 
 
 ### 公共服务器的主要目的是做家庭作业用
