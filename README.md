@@ -108,7 +108,9 @@ github网站网址<https://github.com>
 
 ### 公共服务器的主要目的是做家庭作业用
 
-* 本课程的家庭作业主页是：<https://wanlier.github.io/wstudio/>
+* 本课程的家庭作业主页是：
+
+<https://wanlier.github.io/wstudio/>
 
 * 如果利用服务器做家庭作业，作业主页有说明
 
