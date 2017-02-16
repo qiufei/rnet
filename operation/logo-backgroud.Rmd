@@ -1,0 +1,17 @@
+---
+title: "git基本操作"
+author: "邱飞"
+date: "万里学院"
+output:
+  revealjs::revealjs_presentation:
+    theme: sky
+    reveal_options:
+      slideNumber: true
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## {data-background="logo.jpg"}

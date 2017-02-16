@@ -15,6 +15,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
+## 本课程的网络主页  ##
+
+> <https://qiufei.github.io/rnet/>
+
+
+![rnet address](../pic/01-rnet-url.png)
+
+这里有课程PPT，课程互动平台说明，公共rstudio服务器使用方法等内容。
+
 ## 金融交易与全球金融危机 ##
 
 巴菲特说衍生品是大规模杀伤性武器。
@@ -123,17 +132,7 @@ shiller 说的good finance
 
 * 国外的：<http://stackoverflow.com>
 
-## 本课程的互联网主页 ##
 
-* 本课程的主页网址是：
-
-> <https://qiufei.github.io/rnet/>
-
-
-
-![rnet address](../pic/01-rnet-url.png)
-
-这里有课程大纲，PPT，课程互动平台说明等内容。
 
 
 ## 本课程的网络讨论区 ## 
