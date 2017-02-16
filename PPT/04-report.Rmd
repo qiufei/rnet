@@ -104,6 +104,12 @@ output:
 
 * 输入有效列表的话，用`1.`开头
 
-## 编写Rmarkdown脚本，生成自己的第一份分析报告。 ##
+## 编写Rmarkdown脚本 ##
 
+![rmd](../pic/04-hmm-rmd.png)
+
+
+## word输出结果
+
+![word](../pic/04-hmm-word.png)
 

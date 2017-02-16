@@ -42,8 +42,6 @@ output:
 
 ## 云计算平台种类 ##
 
-
-
 1. digitalocean是美国的一家云计算平台公司
 
 2. 其他著名的云计算平台还有微软的azure，亚马逊的aws，IBM的Bluemix。他们的共同特点是贵。
@@ -51,26 +49,20 @@ output:
 3. 国内也有其他的云计算平台，比如阿里云，百度云。他们的特点是也贵，而且缺少教程，还很麻烦。
 
 
-## 为什么选择DigitalOcean平台 ##
+## 本课程选择的平台 ##
 
-学习与服务
+DigitalOcean
 
 1. digitalocean有完善的教程，基本上你想在云平台上实现的事情，都会有详细的帖子教你怎么操作。起步早的云平台比如亚马逊的aws也有这个优点。
    
 2. 国内云平台似乎都是给专家用的，很少有教程文档存在。
 
 
-## 在DigitalOcean上部署自己的云端R服务器 ##
+## 在DigitalOcean上部署云端Rstudio服务器 ##
 
 * digitalocean 在创建实例的时侯，有个用户设置区，在该区域内写入如下代码：
 
-`#cloud-config`
-
-`runcmd:`
-
-`  - docker pull rocker/hadleyverse`
-
-`  - docker run -d -p 8787:8787 rocker/hadleyverse`
+![config](../pic/05-do-config.png)
 
 安装完毕后，登陆你的服务器，用户名和密码都为rstudio
 
@@ -98,6 +90,31 @@ output:
 
 * 数据和算法都保存在云端服务器上，不会丢失，也容易保密（云平台和git平台双保险）
 
+
+## digitalocean的标准服务器
+
+![cheap](../pic/05-price-cheap.png)
+
+## do上的高性能服务器
+
+![dear](../pic/05-price-dear.png)
+
+
+## 本课程的作业服务器wstudio
+
+* 本课的公共rstudio服务器网址是<http://138.197.206.152:8787>
+
+* 用户名和密码一样，都是
+
+
+## 自动化设置
+
+* 有了服务器之后，要自动执行你的命令，还需要两部设置
+
+* 首先，把你要做的事情写成shell程序
+
+* 其次，设置crontab命令，按时自动制定你的shell程序
+
 ## 登陆云服务器
 
 ![login](../pic/05-cron-login.png)
@@ -116,3 +133,31 @@ output:
 ## 自动运行的事件设置
 
 ![crontab](../pic/05-cron-tab.png)
+
+
+## 用git加crontab来与服务器通信
+
+* 不建议直接登陆使用服务器，因为服务器上同时只能登陆一个用户，如果有人同时登陆，前面登陆的人会被强制退出。
+
+* 所以建议用git来跟服务器沟通，传输资料
+
+## git的基本设置
+
+* git在安装后需要设置邮箱和用户名
+
+* 下面介绍下设置用户名和邮箱的命令，具体怎么使用git来与服务器练通信会在操作课上讲。
+
+## git的邮箱设置
+
+在rstudio的Tools菜单下，点击Shell...，会跳出命令行界面
+![email](../pic/05-git-email.png)
+
+把上面的QQ邮箱地址换成你自己的邮箱。
+
+## git用户名设置
+
+![user](../pic/05-git-user.png)
+
+把上面的wanlier换成你自己在github网站注册的用户名，例如hanmeimei1314
+
+
