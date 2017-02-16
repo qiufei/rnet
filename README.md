@@ -4,50 +4,38 @@
 
 ### 理论部分
 
-[第一章 导论 PPT](https://rawgit.com/qiufei/rnet/master/PPT/01-intro.html)
+[第一章 导论](https://rawgit.com/qiufei/rnet/master/PPT/01-intro.html)
 
+[第二章 智能交易操作的工具：以R语言为例](https://rawgit.com/qiufei/rnet/master/PPT/02-Rtool.html)
 
-[第二章 智能交易操作的工具：以R语言为例 PPT](https://rawgit.com/qiufei/rnet/master/PPT/02-Rtool.html)
+[第三章 网络数据的获取和使用 ：Quandl](https://rawgit.com/qiufei/rnet/master/PPT/03-quandl.html)
 
+[第四章 利用Rmarkdown生产可重复的报告](https://rawgit.com/qiufei/rnet/master/PPT/04-report.html)
 
+[第五章 智能交易的云计算平台：以DigitalOcean为例](https://rawgit.com/qiufei/rnet/master/PPT/05-digitalocean.html)
 
-[第三章 网络数据的获取和使用 ：Quandl PPT](https://rawgit.com/qiufei/rnet/master/PPT/03-quandl.html)
-
-[第四章 利用Rmarkdown生产可重复的报告 PPT](https://rawgit.com/qiufei/rnet/master/PPT/04-report.html)
-
-
-[第五章 智能交易的云计算平台：以DigitalOcean为例 PPT](https://rawgit.com/qiufei/rnet/master/PPT/05-digitalocean.html)
-
-[第六章 交易设计实例 PPT](https://rawgit.com/qiufei/rnet/master/PPT/06-project.html)
-
-
-# [第三章 网络数据的获取和使用 ：Quandl PPT](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/03-quandl.html)
-# 
-# [第四章 利用Rmarkdown生产可重复的报告 PPT](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/04-report.html)
-# 
-# 
-# [第五章 智能交易的云计算平台：以DigitalOcean为例 PPT](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/05-digitalocean.html)
-# 
-# [第六章 交易设计实例 PPT](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/06-project.html)
-
+[第六章 交易设计实例](https://rawgit.com/qiufei/rnet/master/PPT/06-project.html)
 
 第七章时间不够的话就不讲，因为我自己业没有世纪操作过，所以能讲的东西很少😳。
 
 
 [第七章 高频交易 PPT](https://rawgit.com/qiufei/rnet/master/PPT/07-highfrequence.html)
 
+如果因为网络原因打不开链接，可以在这里下载[这的httml文件](https://github.com/qiufei/rnet/tree/master/PPT)到本地用浏览器打开。
 
 ### 操作部分
 
-[0-git基本操作 PPT](https://rawgit.com/qiufei/rnet/master/operation/0-git基本操作.html)
+[0-git基本操作](https://rawgit.com/qiufei/rnet/master/operation/0-git基本操作.html)
 
-[1-数据集分组与筛选 PPT]([]https://rawgit.com/qiufei/rnet/master/operation/1-数据集分组与筛选.html)
+[1-数据集分组与筛选]([]https://rawgit.com/qiufei/rnet/master/operation/1-数据集分组与筛选.html)
 
 [2-数据集清洗](https://rawgit.com/qiufei/rnet/master/operation/2-数据集清洗.html)
 
 [3-金融市场的波动性]([]https://rawgit.com/qiufei/rnet/master/operation/3-金融市场的波动性.html)
 
 [4-一个天真的买入低价的策略](https://rawgit.com/qiufei/rnet/master/operation/4-一个天真的买入低价的策略.html)
+
+如果因为网络原因打不开链接，可以在这里下载[这的httml文件](https://github.com/qiufei/rnet/tree/master/operation)到本地用浏览器打开。
 
 操作部分主要是使用[dplyr](https://cran.r-project.org/web/packages/dplyr/)宏包进行数据操作，用[ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)宏包进行画图。
 
