@@ -27,11 +27,11 @@
 
 [0-git基本操作](https://rawgit.com/qiufei/rnet/master/operation/0-git基本操作.html)
 
-[1-数据集分组与筛选]([]https://rawgit.com/qiufei/rnet/master/operation/1-数据集分组与筛选.html)
+[1-数据集分组与筛选](https://rawgit.com/qiufei/rnet/master/operation/1-数据集分组与筛选.html)
 
 [2-数据集清洗](https://rawgit.com/qiufei/rnet/master/operation/2-数据集清洗.html)
 
-[3-金融市场的波动性]([]https://rawgit.com/qiufei/rnet/master/operation/3-金融市场的波动性.html)
+[3-金融市场的波动性](https://rawgit.com/qiufei/rnet/master/operation/3-金融市场的波动性.html)
 
 [4-一个天真的买入低价的策略](https://rawgit.com/qiufei/rnet/master/operation/4-一个天真的买入低价的策略.html)
 
