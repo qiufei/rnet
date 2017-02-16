@@ -1,6 +1,6 @@
 ---
 title: "第四章 利用Rmarkdown生产可重复的报告"
-author: "Qiufei"
+author: "邱飞"
 date: "万里学院"
 output:
   revealjs::revealjs_presentation:
@@ -71,9 +71,7 @@ output:
 
 ##  文学化编程：分析报告和操作代码一体 ##
 
-
-
-
+![literature coding](../pic/04-literature-coding.png)
 
 
 ## Markdown语言简介  ##

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <meta name="author" content="Qiufei" />
+  <meta name="author" content="邱飞" />
   <title>第七章 高频交易</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -78,18 +78,97 @@
 
 <section>
     <h1 class="title">第七章 高频交易</h1>
-    <h2 class="author">Qiufei</h2>
+    <h2 class="author">邱飞</h2>
     <h3 class="date">万里学院</h3>
 </section>
 
 <section class="slide level2">
+<h2>高频数据</h2>
+<ul>
+<li><p>金融中的高频数据通常是指以日或者更小时间间隔抽取的观测值</p></li>
+<li><p>金融中最极端的高频数据是证券市场中记录每一笔交易的数据，这时的时间单位通常是秒活着几分之一秒</p></li>
+</ul>
+</section>
+<section class="slide level2">
 <h2>高频数据的特点</h2>
+<ul>
+<li><p>非同步交易</p></li>
+<li><p>买卖报价差</p></li>
+<li><p>高频数据日模式</p></li>
+</ul>
 </section>
 <section class="slide level2">
-<h2>高频数据的应用范围</h2>
+<h2>非同步交易</h2>
+<ul>
+<li><p>非同步的含义：不同的股票有着不同的交易频率，即使同一个股票，其交易强度也是不断变化的。</p></li>
+<li><p>同一个股票在一个交易日内的最后一次交易时间也是天天变化的。</p></li>
+<li><p>然后我们通常假定最后一次交易是同时发生。</p></li>
+<li><p>这种不准确的假定，加上收益率序列前后独立的假定，会带来股票收益率是可预测的错误结论。</p></li>
+</ul>
 </section>
 <section class="slide level2">
-<h2>高频交易策略选介</h2>
+<h2>交易价格的买卖报价差</h2>
+<ul>
+<li><p>在某些市场，做市商(market maker)在促进交易方面提供了重要的作用。</p></li>
+<li><p>他们作为提供流动性的中间人，随时准备进行买和卖的交易</p></li>
+<li><p>但是它们提供的买入和卖出价格是不一样的</p></li>
+<li><p>这种买卖报价差会影响资产收益率时间序列的性质</p></li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>高频交易数据日模式</h2>
+<ul>
+<li><p>不等间隔的时间区间</p></li>
+<li><p>离散值的价格</p></li>
+<li><p>日周期或者日模式的存在</p></li>
+<li><p>一秒内的多重交易</p></li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>不等间隔的时间区间</h2>
+<ul>
+<li><p>交易一般不是在等间隔的时间区间上发生</p></li>
+<li><p>交易时间间隔为什么重要？</p></li>
+<li><p>因为交易的时间间隔包含了市场微观结构（例如交易强度）的有用信息。</p></li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>离散的价格</h2>
+<ul>
+<li><p>美国在2001年1月19日以前，交易价格的最小变动单位是1/16美元</p></li>
+<li><p>现在尽管证券系统都应用了小数位系统</p></li>
+<li><p>但是相邻交易的价格变化还是倾向于取为1美分的整数倍</p></li>
+<li><p>因此可以近似的当作离散值变量</p></li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>日周期或日模式的存在</h2>
+<ul>
+<li><p>在美国纽约股票交易所，开盘和收盘时刻的交易比较频繁，而中午时间交易比较少</p></li>
+<li><p>这导致了U型的交易强度</p></li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>一秒内的多重交易</h2>
+<ul>
+<li><p>多重交易，甚至具有不同价格的多重交易同时发生是可能的</p></li>
+<li><p>部分原因是由于交易纪律是以秒来计算的，而计算机交易系统的时间单位更小</p></li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>高频交易策略的三大类型</h2>
+<ol type="1">
+<li><p>统计套利策略。通过数据分析得出股票偏离其合理价值的幅度过大，于是买入。</p></li>
+<li><p>趋势策略。利用各种信息对市场趋势饿判断，来进行买入操作，实行这类策略的人一般是对市场的即时信息有着充分了解的人。</p></li>
+<li><p>做市策略。在自己的交易系统中同时设定自己的买入价和卖出价，一旦市场价格触及买入价就自动买入，一旦价格触底卖出价就走动卖出。</p></li>
+</ol>
+</section>
+<section class="slide level2">
+<h2>适合高频交易的市场的要求</h2>
+<ol type="1">
+<li><p>市场能鼓快速进入和退去。这一点取决于流动性和市场的电子交易系统的可得性。</p></li>
+<li><p>市场要求有一定的波动性，从而保证价格变动能够超过交易成本。这一点与宏观经济信息传递到该市场的信息量有关。</p></li>
+</ol>
 </section>
     </div>
   </div>

@@ -1,6 +1,6 @@
 ---
 title: "第三章 网络数据的获取和使用"
-author: "Qiufei"
+author: "邱飞"
 date: "万里学院"
 output:
   revealjs::revealjs_presentation:
@@ -11,10 +11,14 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message = FALSE)
+library(Quandl)
+Quandl.api_key("9iGeZZoG6Vc46rfs1AgJ")
 ```
 
 ## 安装和配置Quandl扩展包。 ##
 * 网站注册，获得API key
+
+* API key 长这样 `9iGe222G6Vcxxxfs1AgJ`
 
 ## google finance 数据 ##
 * google finance 入口：https://www.quandl.com/data/GOOG-Google-Finance
@@ -35,7 +39,7 @@ knitr::opts_chunk$set(message = FALSE)
 
 * 现在我们进入数据分析的环节
 
-## 为什么要画图 ##
+## 为什么要画图? ##
 
 数据分析有两种方式：
 
@@ -56,9 +60,6 @@ knitr::opts_chunk$set(message = FALSE)
 ## 例子：股市市值占GDP的比重 ##
 
 ```{r}
-
-# 载入 quandl宏包，因为后面我们要用到获取数据的Quandl()函数
-library(Quandl)
 # 载入knitr宏包，因为后面我们要用到显示表格的kable()函数
 library(knitr)
 
@@ -81,10 +82,13 @@ pic_cn = ggplot(china,aes(x = Date, y = Value))+
   geom_line()+
   geom_point()+
   ggtitle("Stock market capitalization to GDP (%) - China")
+```
+
+## show plain picture
+
+```{r plain pic,echo=FALSE,warning=FALSE}
 
 pic_cn
-
-
 
 ```
 
@@ -103,46 +107,55 @@ pic_cn
 # 可以理解为是ggplot2图片的美图秀秀
 library(ggthemes)
 
-pic_cn+theme_economist()
+pic_beautiful = pic_cn+theme_economist()
 
 ```
+
+
+## show beautiful picture
+
+```{r beautiful picture,echo=FALSE,,warning=FALSE}
+
+pic_beautiful
+
+
+```
+
 
 ## 常用theme 主题 ##
 
 * theme_economist
-* theme_wsj
-* 跟多主题，请见https://github.com/jrnold/ggthemes
 
-```{r}
-pic_cn+theme_wsj()
-```
+* theme_wsj
+
+* 更多主题，请见https://github.com/jrnold/ggthemes
+
 
 ## 多国数据的比较 ##
 
 ```{r}
 
-## 找到中国，美国和日本的股市市值占GDP的比重后，把她们放到一起，以便于quandl函数能够获得多个数据
-codes = c('WGFD/CHN_GFDD_DM_01','WGFD/USA_GFDD_DM_01','WGFD/JPN_GFDD_DM_01')
+## 找到中国，美国和日本的股市市值占GDP的比重后，
+## 把她们放到一起，以便于quandl函数能够获得多个数据
+codes = c('WGFD/CHN_GFDD_DM_01',
+          'WGFD/USA_GFDD_DM_01',
+          'WGFD/JPN_GFDD_DM_01')
 
 ## 获取多个数据 ##
 stm = Quandl(codes)
 
 kable(tail(stm))
 
-
 ```
 
 ## 给数据集重命名 ##
 
 ```{r}
-
 ## 总共有四列数据，我们分别命名为date,china,usa,japan
 colnames(stm) = c('date','china','usa','japan')
 
 ## 看看命名后的数据集长啥样
 kable(tail(stm))
-
-
 ```
 
 ## ggplot作图对输入数据的要求 ##
@@ -165,30 +178,33 @@ library(reshape2)
 stm_plot = melt(stm,id = 'date')
 
 ## 看看新的数据集长啥样
-
 kable(tail(stm_plot))
-
-
-
 ```
 
 ## 多个最终作图 ##
 
 ```{r,warning=FALSE}
-
 ## plot
-pic_compare = ggplot(stm_plot,aes(x = date,y = value,color = variable,shape = variable))+
-    geom_line()+
-    geom_point()+
-    ggtitle('Stock market capitalization to GDP (%) ')
+pic_compare = ggplot(stm_plot,
+                     aes(x = date,y = value,
+                         color = variable,shape = variable))+
+                 geom_line()+
+                 geom_point()+
+                 ggtitle('Stock market capitalization to GDP (%) ')
+```
+
+## show multiple pictu
+
+```{r multiple picture,echo=FALSE,warning=FALSE}
 
 pic_compare
+
 
 ```
 
 ## 用ggtheme宏包来美图秀秀一下 ##
 
-```{r,warning=FALSE}
+```{r,warning=FALSE,echo=FALSE,warning=FALSE}
 
 pic_compare + theme_economist()
 
@@ -205,13 +221,19 @@ pic_compare + theme_economist()
 
 ```{r,warning=FALSE}
 
-pic_compare + theme_economist()+
-  annotate('rect',
-           xmin = as.Date('2007-01-01'),xmax = as.Date('2008-01-01'),
-           ymin = 0,ymax = 160,
-           alpha=0.2,fill = 'black')
-
+pic_stress = pic_compare + theme_economist()+
+            annotate('rect',
+            xmin = as.Date('2007-01-01'),xmax = as.Date('2008-01-01'),
+            ymin = 0,ymax = 160,
+            alpha=0.2,fill = 'black')
 ```
 
+## show stress picture
+
+```{r stress picture,echo=FALSE,warning=FALSE}
+
+pic_stress
+
+```
 
 

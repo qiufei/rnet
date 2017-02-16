@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <meta name="author" content="Qiufei" />
+  <meta name="author" content="邱飞" />
   <title>第六章 交易设计实例</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -78,7 +78,7 @@
 
 <section>
     <h1 class="title">第六章 交易设计实例</h1>
-    <h2 class="author">Qiufei</h2>
+    <h2 class="author">邱飞</h2>
     <h3 class="date">万里学院</h3>
 </section>
 
@@ -140,53 +140,53 @@
 <h2>定义低价：价格利于历史中位价</h2>
 <p>我们定义如下操作规则：</p>
 <ul>
-<li><p>某只股票的价格低于其过去一年中历史价格的中位数，</p></li>
+<li><p>某只股票的价格低于其过去30天中历史价格的中位数，</p></li>
 <li><p>就称该只股票的价格较低</p></li>
 <li><p>在操作上，我们定义一个名叫under_ratio的指标</p></li>
 </ul>
 <blockquote>
-<p>under_ratio = 最新收盘价／前一自然年中中股价的中位数</p>
+<p>under_ratio = 最新收盘价／前30天股价的中位数</p>
 </blockquote>
 <p>under_ratio小于1的股票就被认为股价较低。</p>
 </section>
 <section class="slide level2">
 <h2>低于前一年中位值</h2>
 <ul>
-<li><p>但是目前沪深两市股票有三千多只，低于其前一年价格中位数的股票肯定不只一个，那我们该如何选择呢？</p>
+<li><p>但是目前沪深两市股票有三千多只，低于其前30天价格中位数的股票肯定不只一个，那我们该如何选择呢？</p>
 <ol type="1">
-<li>对所有的股票按照under_ratio值从小到大排序</li>
-<li>排序后最靠前的股票是在沪深两市中股价相对最低的股票</li>
-<li>我们从中选出前6名作为投资的选择对象</li>
+<li><p>对所有的股票按照under_ratio值从小到大排序</p></li>
+<li><p>排序后最靠前的股票是在沪深两市中股价相对最低的股票</p></li>
+<li><p>我们从中选出前10名作为投资的选择对象</p></li>
 </ol></li>
 </ul>
-<p>注意：这里的6是任意选的的数据。</p>
+<p>注意：这里的10是任意选的的数据。</p>
 </section>
 <section class="slide level2">
 <h2>然而到底以什么价格买入呢？</h2>
 <ul>
-<li><p>我们已经选定了6只低价的股票，但是，到底要以什么价格买入呢？</p></li>
+<li><p>我们已经选定了10只低价的股票，但是，到底要以什么价格买入呢？</p></li>
 <li><p>因为我们是以昨天的收盘价计算排序找到这六只股票的，所以第二天以昨天的收盘价买入。</p></li>
-<li><p>然而我们想到，对于历史数据，我们只用了过去一年之中的数据，对于之前的数据还没有利用，这会不会存在信息的浪费呢？</p></li>
+<li><p>然而我们想到，对于历史数据，我们只用了过去30天的均值数据，对于其他的信息还没有利用，这会不会存在信息的浪费呢？</p></li>
 </ul>
 </section>
 <section class="slide level2">
-<h2>一种更充分的利用历史信息的买入价格确定方式</h2>
+<h2>利用标准差信息确定买卖价格</h2>
 <ul>
-<li><p>分别计算这6只股票有数据以来的收盘价格的标准差D</p></li>
-<li><p>用前一自然年度收盘价的中位数作为均值U</p></li>
+<li><p>分别计算这10只股票前30天收盘价格的标准差D</p></li>
+<li><p>将30天收盘价的中位数记为U</p></li>
 <li><p>如果股价低于 U - 2D 那么就买入</p></li>
 <li><p>如果股价高于 U + 2D 就卖出</p></li>
 </ul>
-<p>这一策略同时解决了如何确定买入和卖出价格的问题。</p>
 <blockquote>
 <p>注意：这个策略只是为了教学的方便而定义的简单规则，不要认为这是真的可以赚钱的规则。</p>
 </blockquote>
 </section>
 <section class="slide level2">
 <h2>交易规则的实现：工具语言的介入</h2>
-</section>
-<section class="slide level2">
-<h2>交易指令报告的自动生成</h2>
+<ul>
+<li><p>下面就是进入到用R语言实现上面所说的过程</p></li>
+<li><p>请看操作PPT<code>《4-一个天真的买入低价的策略》</code></p></li>
+</ul>
 </section>
     </div>
   </div>

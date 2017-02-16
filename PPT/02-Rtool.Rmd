@@ -1,7 +1,7 @@
 ---
 title: "第二章 智能交易操作的工具：以R语言为例"
-author: "Qiufei"
-date: "2/6/2017"
+author: "邱飞"
+date: "万里学院"
 output:
   revealjs::revealjs_presentation:
     theme: sky
@@ -10,7 +10,9 @@ output:
 ---
 
 
-## our pilosopy:learning by doing ##
+## 我们对工具的态度
+
+our pilosopy:learning by doing ##
 
 * 关注够用的细节
 
@@ -20,7 +22,9 @@ output:
 
 ## 安装与配置 ##
 
-* R与是必备的软件
+* R与Rstudio是必备的软件
+
+* 为了完成作业，还需要安装git
 
 * 网盘下载地址：<https://pan.baidu.com/s/1mhXKIAc>
 
@@ -52,7 +56,11 @@ output:
 > 人生苦短，我用package！
 
 
-## 为什么有宏扩展包（package）？ ##
+## 为什么要用宏扩展包（package）？ ##
+
+* 出了节省数据预处理的时间外
+
+* 宏包存在还有更为重要的理由
 
 ## 语言是为了特定的任务而设计的 ##
 
@@ -92,12 +100,11 @@ output:
 
 ## quandl例子：获取国家统计局的数据 ##
 
+* 国家统计局的入口：<https://www.quandl.com/data/NBSC-National-Bureau-of-Statistics-of-China>
 
-quandl上国家统计局的入口：https://www.quandl.com/data/NBSC-National-Bureau-of-Statistics-of-China
+<!-- 人民银行的入口：https://www.quandl.com/data/PBCHINA-People-s-Bank-of-China -->
 
-人民银行的入口：https://www.quandl.com/data/PBCHINA-People-s-Bank-of-China
-
-人力资源与社会保障部的入口：https://www.quandl.com/data/MOHRSS-Chinese-Ministry-of-Human-Resources-and-Social-Security
+<!-- 人力资源与社会保障部的入口：https://www.quandl.com/data/MOHRSS-Chinese-Ministry-of-Human-Resources-and-Social-Security -->
 
 
 ![national bureau of statisitics of china](../pic/02_nbsc.png)

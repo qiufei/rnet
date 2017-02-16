@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <meta name="author" content="Qiufei" />
+  <meta name="author" content="邱飞" />
   <title>第五章 智能交易的云计算平台：以DigitalOcean为例</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -78,7 +78,7 @@
 
 <section>
     <h1 class="title">第五章 智能交易的云计算平台：以DigitalOcean为例</h1>
-    <h2 class="author">Qiufei</h2>
+    <h2 class="author">邱飞</h2>
     <h3 class="date">万里学院</h3>
 </section>
 
@@ -139,7 +139,25 @@
 <section class="slide level2">
 <h2>在自己的服务器上定时更新分析报告</h2>
 <ul>
-<li>假设以下你个场景，毕业后你成为某个基金的操盘手，需要实时关注</li>
+<li><p>假设以下你个场景，毕业后你成为某个基金的操盘手，</p></li>
+<li><p>你需要每天决策买入那题股票，卖出哪些股票，这不是件容易的事情</p></li>
+<li><p>幸运的是，你发现了一个简单的公式，可以告诉你在哪些价格下买入哪些股票，在哪些价格下卖出这些股票！</p></li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>但是问题来了</h2>
+<ul>
+<li><p>这个公式需要每天载入新数据重新计算，作为极具天赋的金融人才，你有更重要的事情去做，而不想把宝贵实践用在重复计算上。</p></li>
+<li><p>而且，如此宝贵的公式，我不想让别人知道，然而我自己电脑的计算能力又不够？</p></li>
+<li><p>怎么办？</p></li>
+</ul>
+</section>
+<section class="slide level2">
+<h2>于是，你可以在云平台自己配制个服务器</h2>
+<ul>
+<li><p>在云平台上自己配制服务器，解决计算能力不足的问题(digitalocean平台)</p></li>
+<li><p>设定自动运行的命令，可以自动生成报告（linux下的crontab任务）</p></li>
+<li><p>数据和算法都保存在云端服务器上，不会丢失，也容易保密（云平台和git平台双保险）</p></li>
 </ul>
 </section>
     </div>

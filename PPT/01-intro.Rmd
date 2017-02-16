@@ -1,7 +1,7 @@
 ---
 title: "第一章 互联网金融智能交易操作导论"
-author: "Qiufei"
-date: "2/8/2017"
+author: "邱飞"
+date: "万里学院"
 output:
   revealjs::revealjs_presentation:
     theme: sky
@@ -27,16 +27,16 @@ shiller 说的good finance
 
 > while real assets generate net income to the economy, financial assets simply define the allocation or wealth among investors.
 
-
-
 ## 互联网金融交易的特点：数据便利获取 ##
 
 * 分析的基础是信息
+
 * 互联网给信息和数据获取带来了便利
 
 ## 数据提供平台介绍 ##
 
 * 商业收费平台：彭博、万德（wind）、choice
+
 * 免费平台：quandl，
 
 本课程以**Quandl**为主要数据来源。
@@ -93,13 +93,19 @@ shiller 说的good finance
 
 ![R的图标长这样](../pic/01-rlogo.png)
 
-## 扩展包简介 ##
+## R与其宏包的关系 ## 
+
+* 如果把R语言理解为苹果手机的操作系统
+
+* 那么宏包就是一个个APP
+
+## 宏包简介 ##
 
 * Quandl
 
 * knitr,rmarkdown
 
-* dplyr
+* dplyr,ggplot2
 
 ## 编程工具 ##
 
@@ -110,6 +116,7 @@ shiller 说的good finance
 3. 集成开发环境IDE：Rstudio
 
 ## 网上求助 ##
+
 * 互联网时代，是信息分享的时代，学习一门计算机语言，尤其适合到网上搜索提问，你会发现你的很多问题，已经有人遇到过，也已经有了解答。
 
 * 国内的统计之都：<http://cos.name/cn/>
