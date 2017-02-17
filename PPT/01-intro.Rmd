@@ -24,17 +24,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 这里有课程PPT，课程互动平台说明，公共rstudio服务器使用方法等内容。
 
-## 金融交易与全球金融危机 ##
+## {data-background="01-occupy-ws.jpg"}
 
-巴菲特说衍生品是大规模杀伤性武器。
 
-## 怎样才是好的金融制度 ##
+## 金融的定位 ##
 
-shiller 说的good finance
+finance professions as "stewards" of society's wealth.
+
+![goodfinance](../pic/01-good-finance.png)
+
+
 
 ## 金融资产的特点以及对金融交易的态度 ##
+while real assets generate net income to the economy, financial assets simply define the allocation or wealth among investors.
 
-> while real assets generate net income to the economy, financial assets simply define the allocation or wealth among investors.
+![bodie](../pic/01-bodie.jpg)
 
 ## 互联网金融交易的特点：数据便利获取 ##
 
