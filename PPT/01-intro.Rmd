@@ -17,10 +17,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 本课程的网络主页  ##
 
-> <https://qiufei.github.io/rnet/>
+ <https://qiufei.github.io/rnet/>
 
-
-![rnet address](../pic/01-rnet-url.png)
+![rnet address](../pic/01-homepage.png)
 
 这里有课程PPT，课程互动平台说明，公共rstudio服务器使用方法等内容。
 
