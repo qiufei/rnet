@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ![rnet address](../pic/01-homepage.png)
 
-这里有课程PPT，课程互动平台说明，公共rstudio服务器使用方法等内容。
+这里有课程PPT，课程互动讨论区，公共rstudio服务器使用方法等内容。
 
 ## {data-background="01-occupy-ws.jpg"}
 
