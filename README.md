@@ -1,6 +1,9 @@
 # 互联网金融智能交易操作
 
-本课程主要解决两个问题：1.在互联网时代如何获取数据；2.如何搭建自己的数据分析平台。
+本课程主要解决两个问题：
+
+1. 在互联网时代如何获取数据；
+2. 如何搭建自己的数据分析平台。
 
 本课程这个fancy的名字是学校课程大纲规定的，其实我觉得叫“基于R语言的金融数据分析平台搭建与实践”更合适。
 
@@ -29,13 +32,13 @@
 [第六章 交易设计实例](https://rawgit.com/qiufei/rnet/master/PPT/06-project.html)
 [第六章备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/06-project.html)
 
-第七章时间不够的话就不讲，因为我自己业没有世纪操作过，所以能讲的东西很少😳。
+第七章时间不够的话就不讲，因为我自己也没有实际操作过，所以能讲的东西很少😳。
 
 
 [第七章 高频交易 PPT](https://rawgit.com/qiufei/rnet/master/PPT/07-highfrequence.html)
 
 
-* 如果因为网络原因打不开链接，可以在这里下载[这的html文件](https://github.com/qiufei/rnet/tree/master/PPT)到本地用浏览器打开。
+* 如果因为网络原因打不开链接，可以在这里下载[html源文件](https://github.com/qiufei/rnet/tree/master/PPT)到本地用浏览器打开。
 
 ### 操作部分
 
@@ -58,7 +61,7 @@
 [4备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/operation/4-一个天真的买入低价的策略.html)
 
 
-* 如果因为网络原因打不开链接，可以在这里下载[这的html文件](https://github.com/qiufei/rnet/tree/master/operation)到本地用浏览器打开。
+* 如果因为网络原因打不开链接，可以在这里下载[html源文件](https://github.com/qiufei/rnet/tree/master/operation)到本地用浏览器打开。
 
 操作部分主要是使用[dplyr](https://cran.r-project.org/web/packages/dplyr/)宏包进行数据操作，用[ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)宏包进行画图。
 
