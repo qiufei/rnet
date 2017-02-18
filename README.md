@@ -17,7 +17,7 @@
 [第四章备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/04-report.html)
 
 [第五章 智能交易的云计算平台：以DigitalOcean为例](https://rawgit.com/qiufei/rnet/master/PPT/05-digitalocean.html)
-[第���五章备用地址](http://htmlpreview.github.io/https://github.com/qiufei/rnet/blob/master/PPT/05-digitalocean.html?)
+[第五章备用地址](http://htmlpreview.github.io/https://github.com/qiufei/rnet/blob/master/PPT/05-digitalocean.html?)
 
 
 [第六章 交易设计实例](https://rawgit.com/qiufei/rnet/master/PPT/06-project.html)
