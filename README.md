@@ -61,6 +61,10 @@
 [4备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/operation/4-一个天真的买入低价的策略.html)
 
 
+### 课程答疑
+
+[md与rmd的关系](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/e1-sly.html)
+
 * 如果因为网络原因打不开链接，可以在这里下载[html源文件](https://github.com/qiufei/rnet/tree/master/operation)到本地用浏览器打开。
 
 操作部分主要是使用[dplyr](https://cran.r-project.org/web/packages/dplyr/)宏包进行数据操作，用[ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)宏包进行画图。
