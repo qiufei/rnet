@@ -9,7 +9,9 @@ output:
       slideNumber: true
 ---
 
-```{r setup, include=FALSE}
+## 载入数据集
+
+```{r setup}
 knitr::opts_chunk$set(echo = TRUE,message = FALSE)
 load("stock.rda")
 ```
