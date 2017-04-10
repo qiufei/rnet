@@ -14,45 +14,47 @@ knitr::opts_chunk$set(echo = TRUE,message = FALSE)
 load("stock.rda")
 ```
 
-## 筛选
+<!-- ## 筛选 -->
 
-* 要把握市场的总体特征的话，我们需要市场的全部数据。
+<!-- * 要把握市场的总体特征的话，我们需要市场的全部数据。 -->
 
-* 但是，操作最终都是落实到具体的个股上。
+<!-- * 但是，操作最终都是落实到具体的个股上。 -->
 
-* 所以，我们最终需要筛选出感兴趣的个股。
+<!-- * 所以，我们最终需要筛选出感兴趣的个股。 -->
 
-> 例子： 筛选出名称中含有“网络”两个字的股票
+<!-- > 例子： 筛选出名称中含有“网络”两个字的股票 -->
 
-## 获得上市公司名称数据
+<!-- ## 获得上市公司名称数据 -->
 
-* 本课程用到的数据集中的上市公司代码和名称列表存在再这里
+<!-- * 本课程用到的数据集中的上市公司代码和名称列表存在再这里 -->
 
-* <https://raw.githubusercontent.com/qiufei/stockcode/master/stockcode.csv>
+<!-- * <https://raw.githubusercontent.com/qiufei/stockcode/master/szcode.csv> -->
 
-```{r get name, options}
+<!-- ```{r get name, options} -->
 
-library(readr)
+<!-- library(readr) -->
 
-code_name = read_csv("https://raw.githubusercontent.com/qiufei/stockcode/master/stockcode.csv",
-            col_names = TRUE)
-                     
-```
+<!-- code_name = read_csv("https://raw.githubusercontent.com/qiufei/stockcode/master/szcode.csv", -->
+<!--             col_names = TRUE) -->
 
-## 查看数据集的结构
+<!-- ``` -->
 
-* head函数得到数据集的前6行记录
+<!-- ## 查看数据集的结构 -->
 
-* 可以看到股票的名称存储在stockname列
+<!-- * head函数得到数据集的前6行记录 -->
 
-```{r head, options}
+<!-- * 可以看到股票的名称存储在stockname列 -->
 
-name_head = head(code_name)
-library(knitr)
-kable(name_head)
+<!-- ```{r head, options} -->
+
+<!-- name_head = head(code_name) -->
+<!-- library(knitr) -->
+<!-- kable(name_head) -->
 
 
-```
+<!-- ``` -->
+
+<!-- ## 获取股票简称中含有“网络”两个字的股票 -->
 
 
 ## 分组计算：获得每只股票的每天的日收益率

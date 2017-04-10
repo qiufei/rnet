@@ -120,77 +120,29 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </section>
 
 <section class="slide level2">
-<h2>筛选</h2>
-<ul>
-<li><p>要把握市场的总体特征的话，我们需要市场的全部数据。</p></li>
-<li><p>但是，操作最终都是落实到具体的个股上。</p></li>
-<li><p>所以，我们最终需要筛选出感兴趣的个股。</p></li>
-</ul>
-<blockquote>
-<p>例子： 筛选出名称中含有“网络”两个字的股票</p>
-</blockquote>
-</section>
-<section class="slide level2">
-<h2>获得上市公司名称数据</h2>
-<ul>
-<li><p>本课程用到的数据集中的上市公司代码和名称列表存在再这里</p></li>
-<li><p><a href="https://raw.githubusercontent.com/qiufei/stockcode/master/stockcode.csv" class="uri">https://raw.githubusercontent.com/qiufei/stockcode/master/stockcode.csv</a></p></li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
 
-code_name =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/qiufei/stockcode/master/stockcode.csv&quot;</span>,
-            <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</code></pre></div>
-</section>
-<section class="slide level2">
-<h2>查看数据集的结构</h2>
-<ul>
-<li><p>head函数得到数据集的前6行记录</p></li>
-<li><p>可以看到股票的名称存储在stockname列</p></li>
-</ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">name_head =<span class="st"> </span><span class="kw">head</span>(code_name)
-<span class="kw">library</span>(knitr)
-<span class="kw">kable</span>(name_head)</code></pre></div>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: left;">stockname</th>
-<th style="text-align: left;">sename</th>
-<th style="text-align: left;">stockcode</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">平安银行</td>
-<td style="text-align: left;">SZ000001</td>
-<td style="text-align: left;">000001.SZ</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">万 科Ａ</td>
-<td style="text-align: left;">SZ000002</td>
-<td style="text-align: left;">000002.SZ</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">国农科技</td>
-<td style="text-align: left;">SZ000004</td>
-<td style="text-align: left;">000004.SZ</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">世纪星源</td>
-<td style="text-align: left;">SZ000005</td>
-<td style="text-align: left;">000005.SZ</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">深振业Ａ</td>
-<td style="text-align: left;">SZ000006</td>
-<td style="text-align: left;">000006.SZ</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">零七股份</td>
-<td style="text-align: left;">SZ000007</td>
-<td style="text-align: left;">000007.SZ</td>
-</tr>
-</tbody>
-</table>
+<!-- ## 筛选 -->
+<!-- * 要把握市场的总体特征的话，我们需要市场的全部数据。 -->
+<!-- * 但是，操作最终都是落实到具体的个股上。 -->
+<!-- * 所以，我们最终需要筛选出感兴趣的个股。 -->
+<!-- > 例子： 筛选出名称中含有“网络”两个字的股票 -->
+<!-- ## 获得上市公司名称数据 -->
+<!-- * 本课程用到的数据集中的上市公司代码和名称列表存在再这里 -->
+<!-- * <https://raw.githubusercontent.com/qiufei/stockcode/master/szcode.csv> -->
+<!-- ```{r get name, options} -->
+<!-- library(readr) -->
+<!-- code_name = read_csv("https://raw.githubusercontent.com/qiufei/stockcode/master/szcode.csv", -->
+<!--             col_names = TRUE) -->
+<!-- ``` -->
+<!-- ## 查看数据集的结构 -->
+<!-- * head函数得到数据集的前6行记录 -->
+<!-- * 可以看到股票的名称存储在stockname列 -->
+<!-- ```{r head, options} -->
+<!-- name_head = head(code_name) -->
+<!-- library(knitr) -->
+<!-- kable(name_head) -->
+<!-- ``` -->
+<!-- ## 获取股票简称中含有“网络”两个字的股票 -->
 </section>
 <section class="slide level2">
 <h2>分组计算：获得每只股票的每天的日收益率</h2>
