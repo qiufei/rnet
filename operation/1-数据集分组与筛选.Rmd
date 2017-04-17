@@ -299,3 +299,25 @@ hushen_plot_final
 * 在一般情况下，深证指数的波动较大
 
 * 但是在特殊时期，上证的波动比深证大
+
+## smart move
+
+```{r}
+
+smart_move = filter(return,!(return >0.1 | return < -0.1))
+
+smart_hushen = filter(smart_move,
+                      code == "SHA000001" | code == "SHE399001")
+
+smart_pic = ggplot(smart_hushen, 
+                   aes(x = date, y = return, color = code))+geom_line()
+
+```
+
+
+## show smart pic
+
+```{r,echo = FALSE}
+smart_pic
+```
+
