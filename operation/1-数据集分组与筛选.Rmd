@@ -67,7 +67,7 @@ load("stock.rda")
 
 ## 原始的stock只是一个数据集
 
-```{r return}
+```{r}
 
 str(stock)
 
@@ -78,7 +78,7 @@ str(stock)
 
 * 按照股票代码code来分组
 
-```{r group, options}
+```{r group}
 library(dplyr)
 stock_grouped = group_by(stock,code)
 str(stock_grouped)
@@ -104,7 +104,7 @@ stock_sort = arrange(stock_grouped,date)
 
 ## 对每只股票计算每天的收益率
 
-```{r return, options}
+```{r return}
 
 stock_return = transmute(stock_sort,
                          date = date,
@@ -306,10 +306,10 @@ hushen_plot_final
 
 smart_move = filter(return,!(return >0.1 | return < -0.1))
 
-smart_hushen = filter(smart_move,
+smart_girl = filter(smart_move,
                       code == "SHA000001" | code == "SHE399001")
 
-smart_pic = ggplot(smart_hushen, 
+smart_pic_girl = ggplot(smart_girl, 
                    aes(x = date, y = return, color = code))+geom_line()
 
 ```
@@ -318,6 +318,67 @@ smart_pic = ggplot(smart_hushen,
 ## show smart pic
 
 ```{r,echo = FALSE}
-smart_pic
+smart_pic_girl
+```
+
+
+## 如果股市没有涨跌幅限制
+
+```{r}
+
+shanghai = filter(stock, code == "SHA000001")
+shenzhen = filter(stock, code == "SHE399001")
+
+summary(shanghai$close)
+
+summary(shenzhen$close)
+
+```
+
+
+## 找出异常数值点
+
+```{r}
+
+shanghai_sort = arrange(shanghai, close)
+
+library(knitr)
+kable(head(shanghai_sort))
+
+```
+
+
+## 清除异常值点
+
+```{r}
+
+hushen_new = filter(stock,
+                      code == "SHA000001" | code == "SHE399001")
+
+hushen_smart = filter(hushen_new, !(code == "SHA000001" & close < 2000))
+
+
+
+```
+
+## 计算收益率
+
+```{r}
+
+hushen_grouped = group_by(hushen_smart,code)
+
+hushen_return = transmute(hushen_grouped,
+                         date = date,
+                         return = close/lag(close) -1)
+
+smart_pic_boy = ggplot(hushen_return, 
+                   aes(x = date, y = return, color = code))+geom_line()
+
+```
+ 
+## show 
+
+```{r,echo= FALSE}
+smart_pic_boy
 ```
 
