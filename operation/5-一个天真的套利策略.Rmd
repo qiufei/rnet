@@ -1,0 +1,180 @@
+---
+title: "一个天真的套利策略"
+author: "邱飞"
+date: "万里学院"
+output:
+  revealjs::revealjs_presentation:
+    theme: sky
+    reveal_options:
+      slideNumber: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+library(dplyr)
+load("stock_clean.rda")
+```
+
+## icbc data
+
+```{r}
+
+stock_reg = ungroup(stock_clean)
+icbc = filter(stock_reg, code == "SHA601398")
+
+icbc_close = select(icbc, date, icbc = close)
+
+kable(head(icbc_close))
+
+```
+
+
+## ningbo bank data
+
+```{r}
+
+nb = filter(stock_reg, code == "SHE002142")
+nb_close = select(nb, date, nb = close)
+
+kable(head(nb_close))
+
+```
+
+## merge data for regression 
+
+```{r}
+reg_data =  merge(icbc_close, nb_close, by = "date")
+
+range(icbc$date)
+
+range(nb$date)
+
+range(reg_data$date)
+
+
+```
+
+
+## regression
+
+```{r}
+
+fit = lm(icbc ~ nb, data = reg_data)
+
+summary(fit)
+
+
+
+```
+
+## the regression ratio
+- the regression model is 
+$$ icbc = \alpha + \beta \times nb + \epsilon $$
+
+- the ratio is the $\beta$
+
+```{r}
+ratio = as.numeric(fit$coefficients[2])
+ratio
+```
+
+
+## spread
+
+```{r}
+
+spread = transmute(reg_data,
+                   date = date,
+                   spread_model = icbc-ratio*nb,
+                   mean_model = mean(spread_model),
+                   sd_model = sd(spread_model),
+                   upper_model = mean_model+sd_model,
+                   lower_model = mean_model-sd_model)
+
+```
+
+
+## plot spread
+
+```{r}
+
+library(ggplot2)
+library(ggthemes)
+
+pic_spread = ggplot(data = spread, aes(x = date, y = spread_model))+
+            geom_line()+
+            geom_hline(yintercept = spread$upper_model, color="red")+
+            geom_hline(yintercept = spread$mean_model, color="green")+
+            geom_hline(yintercept = spread$lower_model, color="blue")+
+            theme_economist()
+
+```
+
+## show spread
+
+```{r,echo= FALSE}
+pic_spread
+```
+
+
+## operation strategy sell
+
+```{r}
+
+sell = filter(spread, spread_model >= upper_model)
+
+kable(head(sell))
+
+pic_sell = ggplot(data = sell, aes(x = date, y = spread_model))+
+           geom_point()+
+           theme_wsj()
+
+buy = filter(spread, spread_model <= lower_model)
+
+
+
+```
+
+
+## show sell points
+
+```{r,echo= FALSE}
+pic_sell
+```
+
+
+## operation strategy buy
+
+```{r}
+
+buy = filter(spread, spread_model <= lower_model)
+
+kable(head(buy))
+
+pic_buy = ggplot(data = sell, aes(x = date, y = spread_model))+
+           geom_point()+
+           theme_wsj()
+
+
+```
+
+
+## show buy points
+
+```{r,echo= FALSE}
+pic_buy
+```
+
+## conclusion
+
+- the previous result is too good to be true
+
+- but we can wishfully think that the history repeat or doesn't change too much
+
+- so when the price is above upper_model, that is `r spread$upper_model[1]`, sell.
+
+- when the price is below lower_model, that is `r spread$lower_model[1]`, buy.
+
+> so you can see why we need a cloud server to do daily calculation.
+
