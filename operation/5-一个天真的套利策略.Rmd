@@ -16,7 +16,7 @@ library(dplyr)
 load("stock_clean.rda")
 ```
 
-## icbc data
+## 工商银行数据
 
 ```{r}
 
@@ -30,7 +30,7 @@ kable(head(icbc_close))
 ```
 
 
-## ningbo bank data
+## 宁波银行数据
 
 ```{r}
 
@@ -41,7 +41,7 @@ kable(head(nb_close))
 
 ```
 
-## merge data for regression 
+## 合并两家行的数据
 
 ```{r}
 reg_data =  merge(icbc_close, nb_close, by = "date")
@@ -56,7 +56,7 @@ range(reg_data$date)
 ```
 
 
-## regression
+## 一元线性回归
 
 ```{r}
 
@@ -68,7 +68,7 @@ summary(fit)
 
 ```
 
-## the regression ratio
+## 回归方程斜率
 - the regression model is 
 $$ icbc = \alpha + \beta \times nb + \epsilon $$
 
@@ -80,7 +80,7 @@ ratio
 ```
 
 
-## spread
+## 价差（spread）
 
 ```{r}
 
@@ -111,46 +111,47 @@ pic_spread = ggplot(data = spread, aes(x = date, y = spread_model))+
 
 ```
 
-## show spread
+## 图示价差范围
 
 ```{r,echo= FALSE}
 pic_spread
 ```
 
 
-## operation strategy sell
+## 回归计算得到的价差若高于历史上限，卖出
 
 ```{r}
 
 sell = filter(spread, spread_model >= upper_model)
 
-kable(head(sell))
+sell_head = kable(head(sell))
 
 pic_sell = ggplot(data = sell, aes(x = date, y = spread_model))+
            geom_point()+
            theme_wsj()
+```
 
-buy = filter(spread, spread_model <= lower_model)
+##
 
-
-
+```{r}
+sell_head
 ```
 
 
-## show sell points
+## 看一下历史卖出点
 
 ```{r,echo= FALSE}
 pic_sell
 ```
 
 
-## operation strategy buy
+## 回归计算得到的价差若低于历史上限，买入
 
 ```{r}
 
 buy = filter(spread, spread_model <= lower_model)
 
-kable(head(buy))
+buy_head = kable(head(buy))
 
 pic_buy = ggplot(data = sell, aes(x = date, y = spread_model))+
            geom_point()+
@@ -159,14 +160,22 @@ pic_buy = ggplot(data = sell, aes(x = date, y = spread_model))+
 
 ```
 
+## 
 
-## show buy points
+```{r}
+buy_head
+```
+
+
+
+
+## 看一下历史买入点
 
 ```{r,echo= FALSE}
 pic_buy
 ```
 
-## conclusion
+## 总结
 
 - the previous result is too good to be true
 
