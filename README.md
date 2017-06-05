@@ -63,6 +63,9 @@
 [5-一个天真的套利策略](https://rawgit.com/qiufei/rnet/master/operation/5-一个天真的套利策略.html)
 [5备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/operation/5-一个天真的套利策略.html)
 
+[6-函数](https://rawgit.com/qiufei/rnet/master/operation/6-函数.html)
+[6备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/operation/6-函数.html)
+
 ### 课程答疑
 
 [md与rmd的关系](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/PPT/e1-sly.html)

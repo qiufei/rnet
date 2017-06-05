@@ -1,0 +1,165 @@
+---
+title: "一个天真的低价买入策略"
+author: "邱飞"
+date: "万里学院"
+output: word_document
+---
+
+```{r setup}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+load("stock_clean.rda")
+```
+
+
+
+## 获得每个股票最近三十个交易日的数据
+
+
+```{r get the latest N day data}
+
+library(dplyr)
+number_of_days = 30
+stock_latest = slice(stock_clean,1:number_of_days)
+
+```
+
+
+## 去掉没有即时更新的股票
+
+```{r new data}
+
+stock_latest_clean = filter(stock_latest,date >= "2016-12-01")
+
+
+```
+
+
+## 获得每只股票当前区间的收盘价格中位数
+
+```{r}
+
+latest_median = summarise(stock_latest_clean,
+                        latest_date = first(date),
+                        median_close = median(close)
+                        )
+```
+
+## 获得每只股票当前区间的最新收盘价格
+
+
+```{r}
+
+latest_close = summarise(stock_latest_clean,
+                          latest_date = first(date),
+                          latest_close = first(close))
+
+```
+
+## merge历史中位数和最新价格 ##
+
+
+
+```{r}
+
+median_close = merge(latest_median,latest_close,
+                     by = c("code","latest_date")) 
+
+```
+
+
+## 计算低估率指标 ##
+
+
+```{r under value ratio}
+under_close = mutate(median_close,
+                     under_ratio = latest_close/median_close)
+```
+
+
+
+## 获得最被低估的十只股票
+
+
+```{r under top10}
+
+under_close_sort = arrange(under_close,under_ratio)
+
+# 取出under_close_sort中排名前10的股票
+under_close_top10 = head(under_close_sort,10) 
+
+head(under_close_top10)
+
+```
+
+
+## 获取选定的十只股票近三十天的标准差 ##
+
+```{r top10 sd}
+# 提取这10只股票的数据
+under_top10 = filter(stock_latest_clean, 
+                     code %in% under_close_top10$code) 
+
+# 获取这十只股票近30天的数据
+
+under_top10_30 = slice(under_top10,1:30)
+
+# 计算这十只股票的标准差
+under_top10_sd = summarize(under_top10_30,D = sd(close))
+
+```
+
+
+## 将最新收盘价，中位数和标准差数据合并到一个数据集内
+
+
+```{r operation data}
+
+operation = merge(under_close_top10,
+                  under_top10_sd,
+                  by = "code")
+
+
+
+```
+
+
+## 生成买入和卖出指标
+
+```{r operation index}
+
+operation_index = transmute(operation,
+                            code = code,
+                            date = latest_date,
+                            low = median_close - 2*D,
+                            high = median_close + 2*D,
+                            price = latest_close,
+                            ratio = under_ratio)
+
+operation_sort = arrange(operation_index,ratio)
+
+```
+
+
+## 生成容易阅读的报告
+
+```{r report}
+
+report = transmute(operation_sort,
+                   code = code,
+                   date = date,
+            buy_or_not = if_else(price<low,"主人带我回家吧!","主公请三思!!!"),
+            sell_or_not = if_else(price>= high,"分手!!!","微臣还能效犬马之劳!"),
+            ratio = ratio)
+
+```
+
+
+## 最终报告
+
+```{r final report,echo=FALSE}
+
+kable(report)
+
+```
+

@@ -1,0 +1,352 @@
+---
+title: "函数"
+author: "邱飞"
+date: "万里学院"
+output:
+  revealjs::revealjs_presentation:
+    theme: sky
+    reveal_options:
+      slideNumber: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 复利
+
+$$ a(t) = (1+r)^t $$
+
+```{r}
+fl = function(r,t){
+  at = (1+r)^t
+  return(at)
+}
+
+fl(0.05,10)
+```
+
+## 贴现
+
+$$ p(t) = (1+r)^{-t} $$
+
+```{r}
+tx = function(r,t){
+  at = (1+r)^(-t)
+  return(at)
+}
+
+tx(0.05,10)
+
+```
+
+## 复利终值
+
+$$ fv = a(1+r)^t $$
+
+```{r}
+fv = function(a,r,t){
+  v = a*(1+r)^t
+  return(v)
+}
+
+fv(1000,0.08,10)
+```
+
+
+## 复利现值
+
+$$ fv = a(1+r)^{-t} $$
+
+```{r}
+pv = function(a,r,t){
+  v = a*(1+r)^(-t)
+  return(v)
+}
+
+pv(3000,0.08,5)
+```
+
+
+
+
+## 付息债券
+
+$$  P = \sum_{t=1}^{N} \frac{C_t}{(1+y)^t} + \frac{face}{(1+y)^N} $$
+
+```{r}
+bond_pv = function(ct,face,y,n){
+  t = 1:n
+  c = ct/(1+y)^t
+  b = face/(1+y)^n
+  bond = sum(c) + b
+  return(bond)
+}
+
+```
+
+## 债券计算
+
+- 新发行的三年期债券面值1000元，每半年付息50元，市场利率为12%，请问债券现值为多少？
+
+```{r}
+bond_pv(50, 1000, 0.06, 6)
+```
+
+
+## 敏感度分析：久期分析 ##
+
+久期（duration）就是加权到期时间。
+
+一般计算公式如下：
+
+
+$$ D = \frac{PV_{t_0}t_0+PV_{t_1}t_1+PV_{t_2}t_2+...+PV_{t_n}t_n}{PV}$$
+ 
+
+其中
+ 
+$$ PV = PV_{t_0}+PV_{t_1}+PV_{t_2}+...+PV_{t_n} $$
+
+* 这个是久期计算的一般公式，一般在于它没有说明用何种利率来折现。
+
+## macaulay久期
+
+* 如果用债券的收益率来折现，那么计算得到的就是macaulay久期。
+
+* 金融工具一年内支付m次，在每期支付的金额为$c_i$，还需要支付n次，$y$为到期收益率,那么这项金融工具的macaulay久期计算公式为：
+
+$$ D = \sum_{i}^{n}\frac{i}{m}\frac{c_i}{[1+(\frac{y}{m})]^i}\frac{1}{PV}   $$
+
+$$ PV = \sum_{i}^{n}\frac{c_i}{[1+(\frac{y}{m})]^i} $$
+
+
+
+## 久期计算函数
+
+```{r}
+
+duration = function(ci,face,y,n,m){
+  i = 1:n
+  c = ci/(1+y/m)^i
+  b = face/(1+y/m)^n
+  pv = sum(c) + b
+
+  time_ct = (i/m)*ci/(1+y/m)^i
+  time_face = (n/m)*face/(1+y/m)^n
+  time = sum(time_ct) + time_face
+  dur = time/pv
+  return(dur)
+  }
+
+```
+
+
+
+##  例子：计算久期
+- 债券收益率8%，票面利率7%，还有三年到期，每半年支付一次利息，请计算久期。
+
+```{r}
+
+duration(3.5,100,0.08,6,2)
+```
+
+## 期权定价
+
+- 股票看涨和看跌期权的价格均为0.5
+
+- 期权行权价格都为1.5
+
+- 计算期权价值和获利情况
+
+## 期权价值
+
+$$ C= max(S-K,0) $$
+$$ \pi_c = C - C_0 $$
+
+$$ P = max(K-S,0) $$
+
+$$ \pi_p = P - P_0  $$
+
+## 参数设定
+
+```{r}
+
+# 期权的行权价格
+K = 1.5
+
+# 期末的股票价格
+S <- seq(0, 3, length=100)
+
+# 看涨期权价格
+C0 = 0.5
+
+# 看跌期权价格
+P0 = 0.5
+
+```
+
+
+## 函数设定
+
+```{r}
+
+payoff_call = function(S, K){
+  sapply(S, function(S, K) max(c(S-K, 0)), K=K)
+}
+
+payoff_put = function(S, K){
+  sapply(S, function(S, K) max(c(K-S, 0)), K=K)
+}
+
+```
+
+
+## 计算交割函数与利润函数
+
+```{r}
+
+payoff.call = payoff_call(S, K)
+payoff.put = payoff_put(S, K)
+
+profit.call = payoff.call-C0
+profit.put = payoff.put-P0
+
+```
+
+
+## 画图
+
+```{r,echo=FALSE}
+
+par(mfrow=c(1,2))
+
+# plot 的第一个参数是x轴，第二个参数是y轴
+# 这里的c（s,s）的意思是par设置的两张图的x轴分别为s，s
+# c(payoff.call, profit.call) 的意思是两张图的y轴分别为payoff.call, profit.call
+# type = "n" 代表不要画图。这意思是plot函数先不要画图，等着后面的lines和abline来添加线条？
+
+plot(c(S,S), c(payoff.call, profit.call), type='n', 
+     main='call option', 
+     xlab='price ',
+     ylab='profit')
+lines(S, payoff.call, lty=1, lwd=2)
+lines(S, profit.call, lty=2, lwd=2)
+abline(h=0, lty=3)
+
+legend('topleft', 
+       legend=c(' strike function', 'profit function'), 
+       lty=c(1,2), lwd=c(2,2))
+
+plot(c(S,S), c(payoff.put, profit.put), type='n', 
+     main='put option', 
+     xlab='price',
+     ylab='profit')
+lines(S, payoff.put, lty=1, lwd=2)
+lines(S, profit.put, lty=2, lwd=2)
+abline(h=0, lty=3)
+
+legend('topright', 
+       legend=c('strike function', 'profit function'), 
+       lty=c(1,2), lwd=c(2,2))
+
+```
+
+##  看涨期权的图形
+
+```{r}
+
+
+call_option = data.frame(S, profit.call,payoff.call)
+
+library(reshape2)
+
+call_data = melt(call_option, id = "S")
+
+library(ggplot2)
+
+call_pic = ggplot(call_data,aes(x = S, y = value,color = variable))+
+  geom_line()+
+  xlab("price")+
+  ylab("profit")
+
+```
+
+##
+
+```{r}
+call_pic
+```
+
+
+## 看跌期权的图形
+
+```{r}
+
+put_option = data.frame(S, profit.put,payoff.put)
+
+library(reshape2)
+
+put_data = melt(put_option, id = "S")
+
+library(ggplot2)
+
+put_pic = ggplot(put_data,aes(x = S, y = value,color = variable))+
+  geom_line()+
+  xlab("price")+
+  ylab("profit")
+```
+
+##
+```{r}
+put_pic
+```
+
+
+## multiplot函数
+
+```{r}
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+
+  numPlots = length(plots)
+
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                    ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+
+ if (numPlots==1) {
+    print(plots[[1]])
+
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}
+```
+
+
+## ggplot2版图形
+
+```{r,echo= FALSE}
+multiplot(call_pic, put_pic, cols=2)
+```
+
