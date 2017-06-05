@@ -36,4 +36,5 @@ vignettes/*.pdf
 # other files
 finaltest.Rmd
 finaltest.html
+finaltest.*
 
