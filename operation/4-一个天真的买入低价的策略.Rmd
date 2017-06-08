@@ -109,9 +109,9 @@ median_close = merge(latest_median,latest_close,
 
 ## 计算低估率指标 ##
 
-定义地低估率计算公式：
+定义低估率计算公式：
 
-> under_ratio = latest_close/median_close)
+> under_ratio = latest_close/median_close
 
 ```{r under value ratio}
 under_close = mutate(median_close,
@@ -127,7 +127,7 @@ under_close = mutate(median_close,
 
 * 对under_close数据集按照低估率升序排列
 
-* 排在前10名的就是罪被低估的十只股票
+* 排在前10名的就是最被低估的十只股票
 
 ```{r under top10}
 
@@ -164,7 +164,7 @@ head(under_close_top10)
 
 ## 确定买入和卖出价格
 
-> 收盘价最近300天中位数记为U，最近30天标准差记为D
+> 收盘价最近30天中位数记为U，最近30天标准差记为D
 
 * 如果最新收盘价低于U-2D，就买入
 
@@ -228,9 +228,11 @@ operation_sort = arrange(operation_index,ratio)
 report = transmute(operation_sort,
                    code = code,
                    date = date,
-            buy_or_not = if_else(price<low,"主人带我回家吧!","主公请三思!!!"),
-            sell_or_not = if_else(price>= high,"分手!!!","微臣还能效犬马之劳!"),
-            ratio = ratio)
+                   buy_or_not = if_else(price<low,"主人带我回家吧!",
+                                 "主公请三思!!!"),
+                   sell_or_not = if_else(price>= high,"分手!!!",
+                                  "微臣还能效犬马之劳!"),
+                   ratio = ratio)
 
 ```
 

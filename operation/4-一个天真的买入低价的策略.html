@@ -131,7 +131,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <section class="slide level2">
 <h2>获得每个股票最近三十个交易日的数据</h2>
 <ul>
-<li><p>因为所有股票在一个数据集里，所以我们依然需要对院士数据进行分组</p></li>
+<li><p>因为所有股票在一个数据集里，所以我们依然需要对原始数据进行分组</p></li>
 <li><p>但我们的<code>stock_clean</code>数据集已经按<code>code</code>变量分过组了，所以不需再做分组操作。</p></li>
 <li><p><code>slice</code>函数来自<code>ldpyr</code>宏包</p></li>
 </ul>
@@ -192,9 +192,9 @@ median_close =<span class="st"> </span><span class="kw">merge</span>(latest_medi
 </section>
 <section class="slide level2">
 <h2>计算低估率指标</h2>
-<p>定义地低估率计算公式：</p>
+<p>定义低估率计算公式：</p>
 <blockquote>
-<p>under_ratio = latest_close/median_close)</p>
+<p>under_ratio = latest_close/median_close</p>
 </blockquote>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">under_close =<span class="st"> </span><span class="kw">mutate</span>(median_close,
                      <span class="dt">under_ratio =</span> latest_close/median_close)</code></pre></div>
@@ -207,7 +207,7 @@ median_close =<span class="st"> </span><span class="kw">merge</span>(latest_medi
 <h2>获得最被低估的十只股票</h2>
 <ul>
 <li><p>对under_close数据集按照低估率升序排列</p></li>
-<li><p>排在前10名的就是罪被低估的十只股票</p></li>
+<li><p>排在前10名的就是最被低估的十只股票</p></li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">under_close_sort =<span class="st"> </span><span class="kw">arrange</span>(under_close,under_ratio)
 
@@ -216,12 +216,12 @@ under_close_top10 =<span class="st"> </span><span class="kw">head</span>(under_c
 
 <span class="kw">head</span>(under_close_top10)</code></pre></div>
 <pre><code>##        code latest_date median_close latest_close under_ratio
-## 1 SHA600647  2017-01-18       45.290        30.70   0.6778538
+## 1 SHA600647  2017-01-18       45.220        30.70   0.6789031
 ## 2 SHE002620  2017-01-18       58.585        43.63   0.7447299
 ## 3 SHE002656  2017-01-18       21.520        16.20   0.7527881
-## 4 SHA600568  2017-01-18       24.780        18.80   0.7586764
+## 4 SHA600568  2017-01-18       24.885        18.80   0.7554752
 ## 5 SHE002458  2017-01-18       34.765        26.81   0.7711779
-## 6 SHE002486  2017-01-18       10.220         8.10   0.7925636</code></pre>
+## 6 SHE002486  2017-01-18       10.240         8.10   0.7910156</code></pre>
 </section>
 <section class="slide level2">
 <h2>但是，以什么价格买入呢？</h2>
@@ -250,7 +250,7 @@ under_close_top10 =<span class="st"> </span><span class="kw">head</span>(under_c
 <section class="slide level2">
 <h2>确定买入和卖出价格</h2>
 <blockquote>
-<p>收盘价最近300天中位数记为U，最近30天标准差记为D</p>
+<p>收盘价最近30天中位数记为U，最近30天标准差记为D</p>
 </blockquote>
 <ul>
 <li><p>如果最新收盘价低于U-2D，就买入</p></li>
@@ -297,9 +297,11 @@ operation_sort =<span class="st"> </span><span class="kw">arrange</span>(operati
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">report =<span class="st"> </span><span class="kw">transmute</span>(operation_sort,
                    <span class="dt">code =</span> code,
                    <span class="dt">date =</span> date,
-            <span class="dt">buy_or_not =</span> <span class="kw">if_else</span>(price&lt;low,<span class="st">&quot;主人带我回家吧!&quot;</span>,<span class="st">&quot;主公请三思!!!&quot;</span>),
-            <span class="dt">sell_or_not =</span> <span class="kw">if_else</span>(price&gt;=<span class="st"> </span>high,<span class="st">&quot;分手!!!&quot;</span>,<span class="st">&quot;微臣还能效犬马之劳!&quot;</span>),
-            <span class="dt">ratio =</span> ratio)</code></pre></div>
+                   <span class="dt">buy_or_not =</span> <span class="kw">if_else</span>(price&lt;low,<span class="st">&quot;主人带我回家吧!&quot;</span>,
+                                 <span class="st">&quot;主公请三思!!!&quot;</span>),
+                   <span class="dt">sell_or_not =</span> <span class="kw">if_else</span>(price&gt;=<span class="st"> </span>high,<span class="st">&quot;分手!!!&quot;</span>,
+                                  <span class="st">&quot;微臣还能效犬马之劳!&quot;</span>),
+                   <span class="dt">ratio =</span> ratio)</code></pre></div>
 </section>
 <section class="slide level2">
 <h2>最终报告</h2>
@@ -319,7 +321,7 @@ operation_sort =<span class="st"> </span><span class="kw">arrange</span>(operati
 <td style="text-align: left;">2017-01-18</td>
 <td style="text-align: left;">主人带我回家吧!</td>
 <td style="text-align: left;">微臣还能效犬马之劳!</td>
-<td style="text-align: right;">0.6778538</td>
+<td style="text-align: right;">0.6789031</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">SHE002620</td>
@@ -340,7 +342,7 @@ operation_sort =<span class="st"> </span><span class="kw">arrange</span>(operati
 <td style="text-align: left;">2017-01-18</td>
 <td style="text-align: left;">主人带我回家吧!</td>
 <td style="text-align: left;">微臣还能效犬马之劳!</td>
-<td style="text-align: right;">0.7586764</td>
+<td style="text-align: right;">0.7554752</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">SHE002458</td>
@@ -354,21 +356,21 @@ operation_sort =<span class="st"> </span><span class="kw">arrange</span>(operati
 <td style="text-align: left;">2017-01-18</td>
 <td style="text-align: left;">主人带我回家吧!</td>
 <td style="text-align: left;">微臣还能效犬马之劳!</td>
-<td style="text-align: right;">0.7925636</td>
+<td style="text-align: right;">0.7910156</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">SHA600506</td>
-<td style="text-align: left;">2017-01-18</td>
-<td style="text-align: left;">主公请三思!!!</td>
-<td style="text-align: left;">微臣还能效犬马之劳!</td>
-<td style="text-align: right;">0.7951768</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">SHE002347</td>
 <td style="text-align: left;">2017-01-18</td>
 <td style="text-align: left;">主人带我回家吧!</td>
 <td style="text-align: left;">微臣还能效犬马之劳!</td>
 <td style="text-align: right;">0.7958873</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SHA600506</td>
+<td style="text-align: left;">2017-01-18</td>
+<td style="text-align: left;">主公请三思!!!</td>
+<td style="text-align: left;">微臣还能效犬马之劳!</td>
+<td style="text-align: right;">0.8031600</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">SHA600321</td>
