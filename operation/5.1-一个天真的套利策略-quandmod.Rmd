@@ -13,15 +13,14 @@ output:
 library(knitr)
 knitr::opts_chunk$set(echo = TRUE, message = FALSE)
 library(dplyr)
-load("stock_clean.rda")
+library(quantmod)
 ```
 
 ## 工商银行数据
 
 ```{r}
 
-stock_reg = ungroup(stock_clean)
-icbc = filter(stock_reg, code == "SHA601398")
+icbc = getSymbols("601398.ss",from = "2014-01-01",to = Sys.Date(),src = "google",auto.assign=FALSE)
 
 icbc_close = select(icbc, date, icbc = close)
 
@@ -34,7 +33,8 @@ kable(head(icbc_close))
 
 ```{r}
 
-nb = filter(stock_reg, code == "SHE002142")
+nb = getSymbols("002142.sz",from = "2014-01-01",to = Sys.Date(),src = "google",auto.assign=FALSE)
+
 nb_close = select(nb, date, nb = close)
 
 kable(head(nb_close))
@@ -186,5 +186,4 @@ pic_buy
 - when the price is below lower_model, that is `r spread$lower_model[1]`, buy.
 
 > so you can see why we need a cloud server to do daily calculation.
-
 
