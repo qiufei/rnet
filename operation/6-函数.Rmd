@@ -11,6 +11,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
 ```
 
 ## 复利
@@ -214,10 +215,46 @@ profit.put = payoff.put-P0
 
 ```
 
+## base画图
 
-## 画图
+```{r}
 
-```{r,echo=FALSE}
+par(mfrow=c(1,2))
+
+# plot 的第一个参数是x轴，第二个参数是y轴
+# 这里的c（s,s）的意思是par设置的两张图的x轴分别为s，s
+# c(payoff.call, profit.call) 的意思是两张图的y轴分别为payoff.call, profit.call
+# type = "n" 代表不要画图。这意思是plot函数先不要画图，等着后面的lines和abline来添加线条？
+
+plot(c(S,S), c(payoff.call, profit.call), type='n', 
+     main='call option', 
+     xlab='price ',
+     ylab='profit')
+lines(S, payoff.call, lty=1, lwd=2)
+lines(S, profit.call, lty=2, lwd=2)
+abline(h=0, lty=3)
+
+legend('topleft', 
+       legend=c(' strike function', 'profit function'), 
+       lty=c(1,2), lwd=c(2,2))
+
+plot(c(S,S), c(payoff.put, profit.put), type='n', 
+     main='put option', 
+     xlab='price',
+     ylab='profit')
+lines(S, payoff.put, lty=1, lwd=2)
+lines(S, profit.put, lty=2, lwd=2)
+abline(h=0, lty=3)
+
+legend('topright', 
+       legend=c('strike function', 'profit function'), 
+       lty=c(1,2), lwd=c(2,2))
+
+```
+
+## show base 画图
+
+```{r, echo=FALSE}
 
 par(mfrow=c(1,2))
 
@@ -274,7 +311,7 @@ call_pic = ggplot(call_data,aes(x = S, y = value,color = variable))+
 
 ##
 
-```{r}
+```{r,echo = FALSE}
 call_pic
 ```
 
@@ -298,55 +335,38 @@ put_pic = ggplot(put_data,aes(x = S, y = value,color = variable))+
 ```
 
 ##
-```{r}
+```{r,echo = FALSE}
 put_pic
 ```
 
 
-## multiplot函数
 
-```{r}
-multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-  library(grid)
-
-  # Make a list from the ... arguments and plotlist
-  plots <- c(list(...), plotlist)
-
-  numPlots = length(plots)
-
-  # If layout is NULL, then use 'cols' to determine layout
-  if (is.null(layout)) {
-    # Make the panel
-    # ncol: Number of columns of plots
-    # nrow: Number of rows needed, calculated from # of cols
-    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
-                    ncol = cols, nrow = ceiling(numPlots/cols))
-  }
-
- if (numPlots==1) {
-    print(plots[[1]])
-
-  } else {
-    # Set up the page
-    grid.newpage()
-    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
-
-    # Make each plot, in the correct location
-    for (i in 1:numPlots) {
-      # Get the i,j matrix positions of the regions that contain this subplot
-      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
-
-      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
-                                      layout.pos.col = matchidx$col))
-    }
-  }
-}
-```
 
 
 ## ggplot2版图形
 
-```{r,echo= FALSE}
-multiplot(call_pic, put_pic, cols=2)
+```{r}
+
+call = mutate(call_data, type = "call")
+
+put = mutate(put_data, type ="put")
+
+cp = rbind(call, put)
+
+cp_pic = ggplot(cp,aes(x = S, y = value,shape = variable,color = variable))+
+  facet_grid(.~type)+
+  geom_line()+
+  geom_point()+
+  xlab("price")+
+  ylab("profit")
+
+```
+
+## show ggplot2  two in one 
+
+```{r,echo = FALSE}
+
+cp_pic
+
 ```
 
