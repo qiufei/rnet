@@ -1,5 +1,5 @@
 ---
-title: "一个天真的套利策略"
+title: "一个天真的套利策略-quantmod"
 author: "邱飞"
 date: "万里学院"
 output:
@@ -20,20 +20,40 @@ library(quantmod)
 
 ```{r}
 
-icbc = getSymbols("601398.ss",from = "2014-01-01",to = Sys.Date(),src = "google",auto.assign=FALSE)
+icbc_new = getSymbols("601398.ss",from = "2014-01-01",to = Sys.Date(),
+                      src = "yahoo",auto.assign=FALSE)
 
-icbc_close = select(icbc, date, icbc = close)
+icbc = data.frame(date = time(icbc_new), data = coredata(icbc_new))
 
-kable(head(icbc_close))
+head(icbc)
 
 ```
+
+
+## rename columns
+
+```{r}
+
+colnames(icbc) = c("date","open","high","low","close","volumn","adjust")
+
+head(icbc)
+
+icbc_close = select(icbc, date, icbc = adjust)
+
+```
+
 
 
 ## 宁波银行数据
 
 ```{r}
 
-nb = getSymbols("002142.sz",from = "2014-01-01",to = Sys.Date(),src = "google",auto.assign=FALSE)
+nb_new = getSymbols("002142.sz",from = "2014-01-01",to = Sys.Date(),
+                    src = "yahoo",auto.assign=FALSE)
+
+nb = data.frame(date = time(nb_new), data = coredata(nb_new))
+
+colnames(nb) = c("date","open","high","low","close","volumn","adjust")
 
 nb_close = select(nb, date, nb = close)
 

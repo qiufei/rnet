@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-cd ~/rnet
+# cd ~/rnet
 
 git pull
 
