@@ -63,8 +63,8 @@
 [5-一个天真的套利策略](https://rawgit.com/qiufei/rnet/master/operation/5-一个天真的套利策略.html)
 [5备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/operation/5-一个天真的套利策略.html)
 
-[5.1-一个天真的套利策略-quantmod](https://rawgit.com/qiufei/rnet/master/operation/5-一个天真的套利策略-quantmod.html)
-[5.1备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/operation/5-一个天真的套利策略-quantmod.html)
+[5.1-一个天真的套利策略-quantmod](https://rawgit.com/qiufei/rnet/master/operation/5.1-一个天真的套利策略-quantmod.html)
+[5.1备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/operation/5.1-一个天真的套利策略-quantmod.html)
 
 [6-函数](https://rawgit.com/qiufei/rnet/master/operation/6-函数.html)
 [6备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/operation/6-函数.html)

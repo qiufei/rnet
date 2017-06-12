@@ -3,7 +3,7 @@
 
 # cd ~/Documents/peter/wanli/rnet
 
-git pull
+# git pull
 
 git add --all 
 
