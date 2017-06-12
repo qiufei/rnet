@@ -343,7 +343,7 @@ put_pic
 
 
 
-## ggplot2版图形
+## ggplot2版图形two in one
 
 ```{r}
 
@@ -353,7 +353,8 @@ put = mutate(put_data, type ="put")
 
 cp = rbind(call, put)
 
-cp_pic = ggplot(cp,aes(x = S, y = value,shape = variable,color = variable))+
+cp_pic = ggplot(cp,aes(x = S, y = value,
+                       shape = variable,color = variable))+
   facet_grid(.~type)+
   geom_line()+
   geom_point()+
