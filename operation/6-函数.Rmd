@@ -94,6 +94,28 @@ bond_pv = function(ct,face,y,n){
 bond_pv(50, 1000, 0.06, 6)
 ```
 
+##  gao's question
+
+a bond pays dividend every 6 month, 4 yuan every time , the maturty is 5 year, the current  price is 108.53, what is the interest rate to maturity $i$?
+
+```{r the hard way }
+gm = function(i) { 4*((1+i/2)^(-1)+(1+i/2)^(-2)+(1+i/2)^(-3)+(1+i/2)^(-4)+(1+i/2)^(-5)+(1+i/2)^(-6)+(1+i/2)^(-7)+(1+i/2)^(-8)+(1+i/2)^(-9)+(1+i/2)^(-10))+100*(1+i/2)^(-10)-108.53}
+
+uniroot(gm,c(0,10))
+
+```
+
+## the smart way
+
+```{r}
+
+t=1:10
+gm2 = function(i) { sum(4*((1+i/2)^-t))+100*(1+i/2)^(-10)-108.53}
+
+uniroot(gm2,c(0,10))
+
+```
+
 
 ## 敏感度分析：久期分析 ##
 

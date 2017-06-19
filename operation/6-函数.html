@@ -182,6 +182,48 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bond_pv</span>(<span class="dv">50</span>, <span class="dv">1000</span>, <span class="fl">0.06</span>, <span class="dv">6</span>)</code></pre></div>
 <pre><code>## [1] 950.8268</code></pre>
 </section>
+<section id="gaos-question" class="slide level2">
+<h2>gao’s question</h2>
+<p>a bond pays dividend every 6 month, 4 yuan every time , the maturty is 5 year, the current price is 108.53, what is the interest rate to maturity <span class="math inline">\(i\)</span>?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gm =<span class="st"> </span>function(i) { <span class="dv">4</span>*((<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">1</span>)+(<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">2</span>)+(<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">3</span>)+(<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">4</span>)+(<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">5</span>)+(<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">6</span>)+(<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">7</span>)+(<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">8</span>)+(<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">9</span>)+(<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">10</span>))+<span class="dv">100</span>*(<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">10</span>)-<span class="fl">108.53</span>}
+
+<span class="kw">uniroot</span>(gm,<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">10</span>))</code></pre></div>
+<pre><code>## $root
+## [1] 0.0600157
+## 
+## $f.root
+## [1] -0.006835219
+## 
+## $iter
+## [1] 7
+## 
+## $init.it
+## [1] NA
+## 
+## $estim.prec
+## [1] 6.103516e-05</code></pre>
+</section>
+<section id="the-smart-way" class="slide level2">
+<h2>the smart way</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t=<span class="dv">1</span>:<span class="dv">10</span>
+gm2 =<span class="st"> </span>function(i) { <span class="kw">sum</span>(<span class="dv">4</span>*((<span class="dv">1</span>+i/<span class="dv">2</span>)^-t))+<span class="dv">100</span>*(<span class="dv">1</span>+i/<span class="dv">2</span>)^(-<span class="dv">10</span>)-<span class="fl">108.53</span>}
+
+<span class="kw">uniroot</span>(gm2,<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">10</span>))</code></pre></div>
+<pre><code>## $root
+## [1] 0.0600157
+## 
+## $f.root
+## [1] -0.006835219
+## 
+## $iter
+## [1] 7
+## 
+## $init.it
+## [1] NA
+## 
+## $estim.prec
+## [1] 6.103516e-05</code></pre>
+</section>
 <section class="slide level2">
 <h2>敏感度分析：久期分析</h2>
 <p>久期（duration）就是加权到期时间。</p>
