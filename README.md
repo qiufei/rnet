@@ -56,7 +56,8 @@
 [3-金融市场的波动性](https://rawgit.com/qiufei/rnet/master/operation/3-金融市场的波动性.html)
 [3备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/operation/3-金融市场的波动性.html)
 
-
+[4-一个天真的买入低价的策略](https://rawgit.com/qiufei/rnet/master/operation/4-一个天真的买入低价的策略.html)
+ [4备用地址](http://htmlpreview.github.io/?https://github.com/qiufei/rnet/blob/master/operation/4-一个天真的买入低价的策略.html)
 
 
 [5-一个天真的套利策略](https://rawgit.com/qiufei/rnet/master/operation/5-一个天真的套利策略.html)
